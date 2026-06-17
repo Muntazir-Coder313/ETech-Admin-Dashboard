@@ -1,0 +1,14 @@
+{
+  "products": [
+    { "id": 1, "name": "Laptop", "price": 999, "category": "Electronics", "stock": 45, "status": "Active" },
+    { "id": 2, "name": "Mouse", "price": 25, "category": "Accessories", "stock": 120, "status": "Active" }
+  ],
+  "orders": [
+    { "id": 101, "customer": "Alice", "date": "2026-06-15", "total": 1240, "status": "Delivered", "items": 3 },
+    { "id": 102, "customer": "Bob", "date": "2026-06-14", "total": 567, "status": "Processing", "items": 1 }
+  ],
+  "customers": [
+    { "id": 1, "name": "Alice Johnson", "email": "alice@example.com", "phone": "123-456-7890", "status": "Active", "totalSpent": 2500 },
+    { "id": 2, "name": "Bob Smith", "email": "bob@example.com", "phone": "098-765-4321", "status": "Inactive", "totalSpent": 800 }
+  ]
+}
