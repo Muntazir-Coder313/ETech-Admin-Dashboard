@@ -16,7 +16,8 @@ function Header({
   sideBarCollapsed,
   onToggleSidebar,
   darkMode,
-  toggleTheme
+  toggleTheme,
+  onLogout
 }) {
   return (
     <div className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl border-b border-slate-200/40 dark:border-slate-700/40 px-6 py-4 shadow-sm">
@@ -86,6 +87,13 @@ function Header({
             ) : (
               <Moon className="w-5 h-5" />
             )}
+          </button>
+
+          <button
+            onClick={onLogout}
+            className="hidden lg:flex items-center space-x-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-blue-500  text-white shadow-lg hover:shadow-xl hover:scale-105 transition"
+          >
+            Logout
           </button>
 
           {/* NOTIFICATION */}
