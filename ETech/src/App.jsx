@@ -45,7 +45,7 @@ function App() {
 
   // ----- Login / Logout handlers -----
   const handleLogin = (username, password) => {
-    if (username.trim() !== '' && password === 'AM12') {
+    if (username.trim() !== '' && password === '1234') {
       setIsLoggedIn(true);
       sessionStorage.setItem('isLoggedIn', 'true');
       sessionStorage.setItem('username', username.trim());
@@ -53,7 +53,7 @@ function App() {
     }
     return false;
   };
-
+  
   const handleLogout = () => {
     setIsLoggedIn(false);
     sessionStorage.removeItem('isLoggedIn');
