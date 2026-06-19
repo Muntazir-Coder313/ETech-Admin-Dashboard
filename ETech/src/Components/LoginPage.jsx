@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { 
   Eye, EyeOff, Mail, Lock, User, 
-  Zap, Shield, Activity, Github, Chrome,
-  AlertCircle, CheckCircle
+  Zap, Shield, Activity, AlertCircle, CheckCircle
 } from 'lucide-react';
 
 const LoginPage = ({ onLogin }) => {
@@ -20,7 +19,6 @@ const LoginPage = ({ onLogin }) => {
     setError(false);
     setSuccess(false);
 
-    // Simulate API call
     setTimeout(() => {
       const authSuccess = onLogin(username, password);
       if (!authSuccess) {
@@ -35,7 +33,8 @@ const LoginPage = ({ onLogin }) => {
   };
 
   const handleSocialLogin = (provider) => {
-    toast.success(`Signing in with ${provider}...`);
+    console.log(`Signing in with ${provider}...`);
+    // You can replace this with a real social login flow.
   };
 
   return (
@@ -44,7 +43,6 @@ const LoginPage = ({ onLogin }) => {
         
         {/* Left side – brand + illustration */}
         <div className="hidden md:flex md:w-1/2 bg-gradient-to-br from-blue-600 via-indigo-700 to-purple-800 p-8 lg:p-12 flex-col justify-between text-white relative overflow-hidden">
-          {/* Animated background patterns */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 animate-pulse-slow" />
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-purple-500/20 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent" />
@@ -66,7 +64,6 @@ const LoginPage = ({ onLogin }) => {
               </p>
             </div>
 
-            {/* Feature cards */}
             <div className="mt-10 space-y-3">
               <div className="flex items-center gap-4 bg-white/10 backdrop-blur-sm p-4 rounded-2xl border border-white/10 hover:bg-white/20 transition-all duration-300">
                 <div className="bg-white/20 p-2.5 rounded-full">
@@ -96,7 +93,6 @@ const LoginPage = ({ onLogin }) => {
 
         {/* Right side – login form */}
         <div className="w-full md:w-1/2 p-6 sm:p-8 lg:p-12 flex flex-col justify-center relative">
-          {/* Mobile brand */}
           <div className="md:hidden flex items-center justify-center gap-2 mb-6">
             <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-xl shadow-lg">
               <Zap className="w-6 h-6 text-white" />
@@ -111,19 +107,19 @@ const LoginPage = ({ onLogin }) => {
             <p className="text-slate-500 dark:text-slate-400 mt-1 text-sm">Enter your credentials to continue.</p>
           </div>
 
-          {/* Social login buttons */}
+          {/* Social login buttons – using emojis instead of icon components */}
           <div className="mt-6 grid grid-cols-2 gap-3">
             <button
               onClick={() => handleSocialLogin('Google')}
               className="flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700/50 transition text-sm font-medium text-slate-700 dark:text-slate-300"
             >
-              <Chrome className="w-4 h-4" /> Google
+              <span className="text-base">🔵</span> Google
             </button>
             <button
               onClick={() => handleSocialLogin('GitHub')}
               className="flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700/50 transition text-sm font-medium text-slate-700 dark:text-slate-300"
             >
-              <Github className="w-4 h-4" /> GitHub
+              <span className="text-base">🐙</span> GitHub
             </button>
           </div>
 
