@@ -6,42 +6,39 @@ import {
   TrendingUp, ChevronDown, ChevronUp, Eye
 } from 'lucide-react';
 
-// Generate a consistent product image using picsum (seed based on product name)
 const getProductImage = (name) => {
   const seed = name.replace(/\s/g, '').toLowerCase();
   return `https://picsum.photos/seed/${seed}/80/80`;
 };
 
-// Product Modal (Add/Edit)
 const ProductModal = ({ isOpen, onClose, onSubmit, product, title }) => {
   const [form, setForm] = useState(product || { name: '', price: '', category: '', stock: '', status: 'Active' });
   if (!isOpen) return null;
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in">
-      <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-96 max-w-md shadow-2xl border border-gray-200 dark:border-gray-700">
-        <h3 className="text-xl font-bold mb-4">{title}</h3>
-        <input type="text" placeholder="Product name" value={form.name} onChange={e => setForm({...form, name: e.target.value})} className="w-full p-2 border rounded-lg mb-3 dark:bg-gray-700" />
-        <input type="number" placeholder="Price ($)" value={form.price} onChange={e => setForm({...form, price: e.target.value})} className="w-full p-2 border rounded-lg mb-3" />
-        <input type="text" placeholder="Category" value={form.category} onChange={e => setForm({...form, category: e.target.value})} className="w-full p-2 border rounded-lg mb-3" />
-        <input type="number" placeholder="Stock" value={form.stock} onChange={e => setForm({...form, stock: e.target.value})} className="w-full p-2 border rounded-lg mb-3" />
-        <select value={form.status} onChange={e => setForm({...form, status: e.target.value})} className="w-full p-2 border rounded-lg mb-3">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 w-full max-w-md shadow-2xl border border-gray-200 dark:border-gray-700 max-h-[90vh] overflow-y-auto">
+        <h3 className="text-lg sm:text-xl font-bold mb-4">{title}</h3>
+        <input type="text" placeholder="Product name" value={form.name} onChange={e => setForm({...form, name: e.target.value})} className="w-full p-2 border rounded-lg mb-3 text-sm sm:text-base" />
+        <input type="number" placeholder="Price ($)" value={form.price} onChange={e => setForm({...form, price: e.target.value})} className="w-full p-2 border rounded-lg mb-3 text-sm sm:text-base" />
+        <input type="text" placeholder="Category" value={form.category} onChange={e => setForm({...form, category: e.target.value})} className="w-full p-2 border rounded-lg mb-3 text-sm sm:text-base" />
+        <input type="number" placeholder="Stock" value={form.stock} onChange={e => setForm({...form, stock: e.target.value})} className="w-full p-2 border rounded-lg mb-3 text-sm sm:text-base" />
+        <select value={form.status} onChange={e => setForm({...form, status: e.target.value})} className="w-full p-2 border rounded-lg mb-3 text-sm sm:text-base">
           <option>Active</option><option>Inactive</option>
         </select>
         <div className="flex justify-end gap-2">
-          <button onClick={() => { onSubmit(form); onClose(); }} className="bg-blue-600 text-white px-4 py-2 rounded-lg">Save</button>
-          <button onClick={onClose} className="bg-gray-300 dark:bg-gray-600 px-4 py-2 rounded-lg">Cancel</button>
+          <button onClick={() => { onSubmit(form); onClose(); }} className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm sm:text-base">Save</button>
+          <button onClick={onClose} className="bg-gray-300 dark:bg-gray-600 px-4 py-2 rounded-lg text-sm sm:text-base">Cancel</button>
         </div>
       </div>
     </div>
   );
 };
 
-// Summary Card
 const StatCard = ({ title, value, icon, color, change }) => (
-  <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-2xl p-5 shadow-lg border hover:shadow-xl transition">
+  <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-2xl p-4 sm:p-5 shadow-lg border hover:shadow-xl transition">
     <div className="flex justify-between items-start">
-      <div><p className="text-gray-500 text-xs uppercase">{title}</p><p className="text-2xl font-bold mt-1">{value}</p></div>
-      <div className={`p-3 rounded-xl bg-${color}-100 dark:bg-${color}-900/30 text-${color}-600`}>{icon}</div>
+      <div><p className="text-gray-500 text-xs uppercase">{title}</p><p className="text-xl sm:text-2xl font-bold mt-1">{value}</p></div>
+      <div className={`p-2 sm:p-3 rounded-xl bg-${color}-100 dark:bg-${color}-900/30 text-${color}-600`}>{icon}</div>
     </div>
     {change && <p className="text-xs mt-2 text-green-500 flex items-center gap-1"><TrendingUp size={10}/> {change}% from last month</p>}
   </div>
@@ -74,7 +71,6 @@ const Products = () => {
   const [refreshing, setRefreshing] = useState(false);
   const itemsPerPage = 8;
 
-  // Simulate loading
   const fetchProducts = useCallback(async (showToast = false) => {
     setLoading(true);
     setTimeout(() => {
@@ -86,7 +82,6 @@ const Products = () => {
 
   React.useEffect(() => { fetchProducts(); }, []);
 
-  // Sorting
   const sortedProducts = useMemo(() => {
     const sorted = [...products];
     sorted.sort((a, b) => {
@@ -101,7 +96,6 @@ const Products = () => {
     return sorted;
   }, [products, sortField, sortDirection]);
 
-  // Filtering
   const filtered = sortedProducts.filter(p => {
     const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) || p.category.toLowerCase().includes(search.toLowerCase());
     const matchCategory = categoryFilter === 'all' || p.category === categoryFilter;
@@ -112,7 +106,6 @@ const Products = () => {
   const totalPages = Math.ceil(filtered.length / itemsPerPage);
   const paginated = filtered.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
-  // Stats
   const totalProducts = filtered.length;
   const totalStock = filtered.reduce((s, p) => s + p.stock, 0);
   const activeProducts = filtered.filter(p => p.status === 'Active').length;
@@ -158,92 +151,105 @@ const Products = () => {
   if (loading) return <div className="flex justify-center items-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div></div>;
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      <div className="flex flex-wrap justify-between items-center gap-4">
-        <div><h1 className="text-4xl font-black bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">Products</h1><p className="text-gray-500">Manage product catalog</p></div>
-        <div className="flex gap-2">
-          <button onClick={exportCSV} className="bg-green-600 text-white px-4 py-2 rounded-xl shadow flex items-center gap-2"><Download size={18} /> Export</button>
-          <button onClick={() => { setEditingProduct(null); setIsModalOpen(true); }} className="bg-blue-600 text-white px-4 py-2 rounded-xl shadow flex items-center gap-2"><Plus size={18} /> Add Product</button>
-          <button onClick={() => { setRefreshing(true); fetchProducts(true); }} disabled={refreshing} className="bg-gray-600 text-white px-3 py-2 rounded-xl shadow"><RefreshCw size={18} className={refreshing ? 'animate-spin' : ''} /></button>
+    <div className="space-y-4 sm:space-y-6 animate-fade-in p-4 sm:p-0">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-black bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">Products</h1>
+          <p className="text-sm md:text-base text-gray-500">Manage product catalog</p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <button onClick={exportCSV} className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl shadow flex items-center gap-2 text-sm sm:text-base"><Download size={18} /> Export</button>
+          <button onClick={() => { setEditingProduct(null); setIsModalOpen(true); }} className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl shadow flex items-center gap-2 text-sm sm:text-base"><Plus size={18} /> Add Product</button>
+          <button onClick={() => { setRefreshing(true); fetchProducts(true); }} disabled={refreshing} className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1.5 sm:py-2 rounded-xl shadow"><RefreshCw size={18} className={refreshing ? 'animate-spin' : ''} /></button>
         </div>
       </div>
 
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
         <StatCard title="Total Products" value={totalProducts} icon={<Package size={20} />} color="blue" change={5} />
         <StatCard title="Total Stock" value={totalStock} icon={<Box size={20} />} color="green" change={12} />
         <StatCard title="Active Products" value={activeProducts} icon={<Tag size={20} />} color="purple" change={3} />
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-wrap gap-3 items-center">
-        <div className="relative flex-1 max-w-md"><Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"/><input type="text" placeholder="Search product..." value={search} onChange={e => setSearch(e.target.value)} className="w-full pl-9 pr-3 py-2 border rounded-xl bg-white/70" /></div>
-        <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)} className="border rounded-xl px-3 py-2 bg-white/70">
+      <div className="flex flex-col sm:flex-row flex-wrap gap-3 items-start sm:items-center">
+        <div className="relative flex-1 max-w-full sm:max-w-md">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <input type="text" placeholder="Search product..." value={search} onChange={e => setSearch(e.target.value)} className="w-full pl-9 pr-3 py-2 border rounded-xl bg-white/70 text-sm" />
+        </div>
+        <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)} className="w-full sm:w-auto border rounded-xl px-3 py-2 text-sm bg-white/70">
           {categories.map(c => <option key={c} value={c}>{c === 'all' ? 'All Categories' : c}</option>)}
         </select>
-        <div className="flex items-center gap-2 bg-white/70 rounded-xl px-3 py-1 border"><DollarSign size={16} /><input type="number" placeholder="Min" value={minPrice} onChange={e => setMinPrice(e.target.value)} className="w-16 bg-transparent outline-none text-sm" /><span>to</span><input type="number" placeholder="Max" value={maxPrice} onChange={e => setMaxPrice(e.target.value)} className="w-16 bg-transparent outline-none text-sm" /></div>
+        <div className="flex items-center gap-2 bg-white/70 rounded-xl px-3 py-1 border text-sm">
+          <DollarSign size={16} className="flex-shrink-0" />
+          <input type="number" placeholder="Min" value={minPrice} onChange={e => setMinPrice(e.target.value)} className="w-16 bg-transparent outline-none text-sm" />
+          <span>to</span>
+          <input type="number" placeholder="Max" value={maxPrice} onChange={e => setMaxPrice(e.target.value)} className="w-16 bg-transparent outline-none text-sm" />
+        </div>
       </div>
 
-      {/* Products Table */}
       <div className="bg-white/70 dark:bg-gray-900/70 rounded-2xl shadow-lg overflow-hidden border">
-        <div className="overflow-x-auto">
-          <table className="min-w-full">
-            <thead className="bg-gray-100/50 dark:bg-gray-800/50">
-              <tr>
-                <th className="px-4 py-3 text-left text-xs font-semibold cursor-pointer hover:text-blue-500" onClick={() => handleSort('name')}>Product</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold cursor-pointer hover:text-blue-500" onClick={() => handleSort('price')}>Price</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold">Category</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold cursor-pointer hover:text-blue-500" onClick={() => handleSort('stock')}>Stock</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold cursor-pointer hover:text-blue-500" onClick={() => handleSort('status')}>Status</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold"></th>
-                <th className="px-4 py-3 text-left text-xs font-semibold"></th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-              {paginated.map(product => (
-                <React.Fragment key={product.id}>
-                  <tr className="hover:bg-gray-100/50 dark:hover:bg-gray-800/50 transition group">
-                    <td className="px-4 py-4">
-                      <div className="flex items-center gap-3">
-                        <img src={getProductImage(product.name)} alt={product.name} className="w-10 h-10 rounded-lg object-cover ring-1 ring-gray-300 dark:ring-gray-600" />
-                        <span className="font-medium">{product.name}</span>
-                      </div>
-                    </td>
-                    <td className="px-4 py-4 font-bold">${product.price}</td>
-                    <td className="px-4 py-4"><span className="px-2 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-xs">{product.category}</span></td>
-                    <td className="px-4 py-4">
-                      <span className={`px-2 py-0.5 rounded-full text-xs ${product.stock > 100 ? 'bg-green-100 text-green-700' : product.stock > 20 ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'}`}>
-                        {product.stock > 100 ? 'High' : product.stock > 20 ? 'Medium' : 'Low'} ({product.stock})
-                      </span>
-                    </td>
-                    <td className="px-4 py-4"><span className={`px-2 py-1 rounded-full text-xs ${product.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>{product.status}</span></td>
-                    <td className="px-4 py-4"><button onClick={() => toggleExpand(product.id)} className="text-gray-500 hover:text-blue-500">{expandedRow === product.id ? <ChevronUp size={18} /> : <ChevronDown size={18} />}</button></td>
-                    <td className="px-4 py-4 flex gap-2">
-                      <button onClick={() => { setEditingProduct(product); setIsModalOpen(true); }} className="text-blue-500"><Edit2 size={16} /></button>
-                      <button onClick={() => handleDelete(product.id)} className="text-red-500"><Trash2 size={16} /></button>
-                    </td>
-                  </tr>
-                  {/* Expandable detail row */}
-                  {expandedRow === product.id && (
-                    <tr className="bg-gray-50/50 dark:bg-gray-800/30">
-                      <td colSpan="7" className="px-4 py-3 text-sm">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                          <div><span className="font-semibold">Description:</span> {product.description || 'No description'}</div>
-                          <div><span className="font-semibold">Status:</span> {product.status}</div>
-                          <div><span className="font-semibold">Stock:</span> {product.stock} units</div>
-                          <div><span className="font-semibold">Price:</span> ${product.price}</div>
+        <div className="overflow-x-auto -mx-4 sm:mx-0">
+          <div className="min-w-full inline-block align-middle">
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead className="bg-gray-100/50 dark:bg-gray-800/50">
+                <tr>
+                  <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold cursor-pointer hover:text-blue-500" onClick={() => handleSort('name')}>Product</th>
+                  <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold cursor-pointer hover:text-blue-500" onClick={() => handleSort('price')}>Price</th>
+                  <th className="hidden sm:table-cell px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold">Category</th>
+                  <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold cursor-pointer hover:text-blue-500" onClick={() => handleSort('stock')}>Stock</th>
+                  <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold cursor-pointer hover:text-blue-500" onClick={() => handleSort('status')}>Status</th>
+                  <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold"></th>
+                  <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold"></th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                {paginated.map(product => (
+                  <React.Fragment key={product.id}>
+                    <tr className="hover:bg-gray-100/50 dark:hover:bg-gray-800/50 transition group">
+                      <td className="px-3 sm:px-4 py-3 sm:py-4">
+                        <div className="flex items-center gap-2 sm:gap-3">
+                          <img src={getProductImage(product.name)} alt={product.name} className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg object-cover ring-1 ring-gray-300 dark:ring-gray-600" />
+                          <span className="font-medium text-sm sm:text-base">{product.name}</span>
                         </div>
                       </td>
+                      <td className="px-3 sm:px-4 py-3 sm:py-4 font-bold text-sm sm:text-base">${product.price}</td>
+                      <td className="hidden sm:table-cell px-3 sm:px-4 py-3 sm:py-4"><span className="px-2 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-xs">{product.category}</span></td>
+                      <td className="px-3 sm:px-4 py-3 sm:py-4">
+                        <span className={`px-2 py-0.5 rounded-full text-xs ${product.stock > 100 ? 'bg-green-100 text-green-700' : product.stock > 20 ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'}`}>
+                          {product.stock > 100 ? 'High' : product.stock > 20 ? 'Medium' : 'Low'} ({product.stock})
+                        </span>
+                      </td>
+                      <td className="px-3 sm:px-4 py-3 sm:py-4"><span className={`px-2 py-1 rounded-full text-xs ${product.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>{product.status}</span></td>
+                      <td className="px-3 sm:px-4 py-3 sm:py-4">
+                        <button onClick={() => toggleExpand(product.id)} className="text-gray-500 hover:text-blue-500">
+                          {expandedRow === product.id ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                        </button>
+                      </td>
+                      <td className="px-3 sm:px-4 py-3 sm:py-4 flex gap-1 sm:gap-2">
+                        <button onClick={() => { setEditingProduct(product); setIsModalOpen(true); }} className="text-blue-500"><Edit2 size={16} /></button>
+                        <button onClick={() => handleDelete(product.id)} className="text-red-500"><Trash2 size={16} /></button>
+                      </td>
                     </tr>
-                  )}
-                </React.Fragment>
-              ))}
-              {paginated.length === 0 && <tr><td colSpan="7" className="text-center py-8 text-gray-400">No products match</td></tr>}
-            </tbody>
-          </table>
+                    {expandedRow === product.id && (
+                      <tr className="bg-gray-50/50 dark:bg-gray-800/30">
+                        <td colSpan="7" className="px-3 sm:px-4 py-3 text-sm">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3">
+                            <div><span className="font-semibold">Description:</span> {product.description || 'No description'}</div>
+                            <div><span className="font-semibold">Status:</span> {product.status}</div>
+                            <div><span className="font-semibold">Stock:</span> {product.stock} units</div>
+                            <div><span className="font-semibold">Price:</span> ${product.price}</div>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </React.Fragment>
+                ))}
+                {paginated.length === 0 && <tr><td colSpan="7" className="text-center py-8 text-gray-400">No products match</td></tr>}
+              </tbody>
+            </table>
+          </div>
         </div>
         {totalPages > 1 && (
-          <div className="flex justify-between items-center p-4 border-t">
+          <div className="flex justify-between items-center p-3 sm:p-4 border-t">
             <button disabled={currentPage===1} onClick={() => setCurrentPage(p => p-1)} className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50"><ChevronLeft size={16} /></button>
             <span className="text-sm">Page {currentPage} of {totalPages}</span>
             <button disabled={currentPage===totalPages} onClick={() => setCurrentPage(p => p+1)} className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50"><ChevronRight size={16} /></button>

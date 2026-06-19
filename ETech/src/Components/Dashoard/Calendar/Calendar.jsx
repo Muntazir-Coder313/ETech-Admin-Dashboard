@@ -97,10 +97,10 @@ const EventModal = ({ isOpen, onClose, onSubmit, event, title, selectedDate }) =
 
   if (!isOpen) return null;
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in">
-      <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-[450px] max-w-[95vw] shadow-2xl border border-gray-200 dark:border-gray-700 max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 w-full max-w-[95vw] sm:max-w-[450px] shadow-2xl border border-gray-200 dark:border-gray-700 max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl font-bold">{title}</h3>
+          <h3 className="text-lg sm:text-xl font-bold">{title}</h3>
           <button onClick={onClose} className="p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition"><X size={20} /></button>
         </div>
         <div className="space-y-3">
@@ -119,7 +119,7 @@ const EventModal = ({ isOpen, onClose, onSubmit, event, title, selectedDate }) =
             className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none resize-none"
           />
           <div className="flex items-center gap-2">
-            <MapPin size={18} className="text-gray-400" />
+            <MapPin size={18} className="text-gray-400 flex-shrink-0" />
             <input 
               type="text" 
               placeholder="Location" 
@@ -128,8 +128,8 @@ const EventModal = ({ isOpen, onClose, onSubmit, event, title, selectedDate }) =
               className="flex-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none"
             />
           </div>
-          <div className="flex items-center gap-2">
-            <Clock size={18} className="text-gray-400" />
+          <div className="flex flex-wrap items-center gap-2">
+            <Clock size={18} className="text-gray-400 flex-shrink-0" />
             <input 
               type="time" 
               value={form.time || '09:00'}
@@ -147,12 +147,12 @@ const EventModal = ({ isOpen, onClose, onSubmit, event, title, selectedDate }) =
               All day
             </label>
           </div>
-          <div className="flex items-center gap-2">
-            <Bell size={18} className="text-gray-400" />
+          <div className="flex flex-wrap items-center gap-2">
+            <Bell size={18} className="text-gray-400 flex-shrink-0" />
             <select 
               value={form.reminder || ''}
               onChange={e => setForm({...form, reminder: e.target.value ? parseInt(e.target.value) : null})}
-              className="p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none"
+              className="flex-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none"
             >
               <option value="">No reminder</option>
               <option value="5">5 min before</option>
@@ -184,14 +184,14 @@ const EventModal = ({ isOpen, onClose, onSubmit, event, title, selectedDate }) =
 // Event Item Component
 const EventItem = ({ event, onEdit, onDelete }) => {
   return (
-    <div className={`flex items-center justify-between p-2 rounded-lg ${event.color} bg-opacity-20 dark:bg-opacity-30 hover:bg-opacity-30 transition mb-1 group`}>
+    <div className={`flex flex-wrap items-center justify-between p-2 rounded-lg ${event.color} bg-opacity-20 dark:bg-opacity-30 hover:bg-opacity-30 transition mb-1 group`}>
       <div className="flex items-center gap-2 flex-1 min-w-0">
-        <div className={`w-2 h-2 rounded-full ${event.color}`} />
+        <div className={`w-2 h-2 rounded-full ${event.color} flex-shrink-0`} />
         <span className="text-sm truncate">{event.title}</span>
-        {event.time && !event.allDay && <span className="text-xs text-gray-500 dark:text-gray-400 ml-auto">{event.time}</span>}
-        {event.allDay && <span className="text-xs text-gray-500 dark:text-gray-400 ml-auto">All day</span>}
+        {event.time && !event.allDay && <span className="text-xs text-gray-500 dark:text-gray-400 ml-auto flex-shrink-0">{event.time}</span>}
+        {event.allDay && <span className="text-xs text-gray-500 dark:text-gray-400 ml-auto flex-shrink-0">All day</span>}
       </div>
-      <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition">
+      <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition mt-1 sm:mt-0">
         <button onClick={() => onEdit(event)} className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700"><Edit2 size={14} className="text-gray-500" /></button>
         <button onClick={() => onDelete(event.id)} className="p-1 rounded hover:bg-red-100 dark:hover:bg-red-900/30"><Trash2 size={14} className="text-red-500" /></button>
       </div>
@@ -371,13 +371,13 @@ const Calendar = () => {
     const daysInMonth = getDaysInMonth(year, month);
     const firstDay = getFirstDayOfMonth(year, month);
     return (
-      <div className="p-4">
-        <div className="grid grid-cols-7 gap-1 mb-2">
+      <div className="p-2 sm:p-4">
+        <div className="grid grid-cols-7 gap-0.5 sm:gap-1 mb-2">
           {['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(day => (
-            <div key={day} className="text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase py-2">{day}</div>
+            <div key={day} className="text-center text-[10px] sm:text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase py-1 sm:py-2">{day}</div>
           ))}
         </div>
-        <div className="grid grid-cols-7 gap-1">
+        <div className="grid grid-cols-7 gap-0.5 sm:gap-1">
           {Array.from({ length: firstDay }, (_, i) => <div key={`empty-${i}`} className="aspect-square" />)}
           {Array.from({ length: daysInMonth }, (_, i) => {
             const day = i + 1;
@@ -389,11 +389,11 @@ const Calendar = () => {
               <div 
                 key={day} 
                 onClick={() => selectDay(day)}
-                className={`aspect-square flex flex-col items-center justify-center rounded-xl cursor-pointer transition hover:scale-105 ${isSelected ? 'bg-purple-600 text-white' : isCurrentDay ? 'bg-purple-100 dark:bg-purple-900/30' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
+                className={`aspect-square flex flex-col items-center justify-center rounded-lg sm:rounded-xl cursor-pointer transition hover:scale-105 text-xs sm:text-sm ${isSelected ? 'bg-purple-600 text-white' : isCurrentDay ? 'bg-purple-100 dark:bg-purple-900/30' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
               >
-                <span className={`text-sm font-medium ${isSelected ? 'text-white' : 'text-gray-800 dark:text-white'}`}>{day}</span>
-                {hasEvent && !isSelected && <div className="w-1.5 h-1.5 rounded-full bg-purple-500 mt-0.5" />}
-                {isSelected && <span className="text-xs mt-0.5 opacity-70">{getEventsForDate(date).length} events</span>}
+                <span className={`font-medium ${isSelected ? 'text-white' : 'text-gray-800 dark:text-white'}`}>{day}</span>
+                {hasEvent && !isSelected && <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-purple-500 mt-0.5" />}
+                {isSelected && <span className="text-[8px] sm:text-xs mt-0.5 opacity-70">{getEventsForDate(date).length} events</span>}
               </div>
             );
           })}
@@ -406,25 +406,25 @@ const Calendar = () => {
   const renderWeekView = () => {
     const weekData = getWeekEvents();
     return (
-      <div className="p-4">
+      <div className="p-2 sm:p-4">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold">
+          <h3 className="text-sm sm:text-lg font-semibold">
             Week of {weekData[0].date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
           </h3>
         </div>
-        <div className="grid grid-cols-7 gap-2">
+        <div className="grid grid-cols-7 gap-1 sm:gap-2">
           {weekData.map((day, idx) => (
-            <div key={idx} className={`rounded-xl p-2 ${isSameDay(day.date, selectedDate) ? 'bg-purple-100 dark:bg-purple-900/30' : 'bg-white/50 dark:bg-gray-800/50'}`}>
+            <div key={idx} className={`rounded-lg sm:rounded-xl p-1 sm:p-2 ${isSameDay(day.date, selectedDate) ? 'bg-purple-100 dark:bg-purple-900/30' : 'bg-white/50 dark:bg-gray-800/50'}`}>
               <div className="text-center">
-                <div className="text-xs font-medium text-gray-500">{getShortDayName(day.date.getDay())}</div>
-                <div className={`text-lg font-bold ${isToday(day.date) ? 'text-purple-600' : 'text-gray-800 dark:text-white'}`}>{day.date.getDate()}</div>
+                <div className="text-[10px] sm:text-xs font-medium text-gray-500">{getShortDayName(day.date.getDay())}</div>
+                <div className={`text-sm sm:text-lg font-bold ${isToday(day.date) ? 'text-purple-600' : 'text-gray-800 dark:text-white'}`}>{day.date.getDate()}</div>
               </div>
-              <div className="mt-2 space-y-1 max-h-32 overflow-y-auto">
+              <div className="mt-1 sm:mt-2 space-y-0.5 sm:space-y-1 max-h-24 sm:max-h-32 overflow-y-auto">
                 {day.events.length === 0 ? (
-                  <div className="text-xs text-gray-400 text-center py-1">No events</div>
+                  <div className="text-[8px] sm:text-xs text-gray-400 text-center py-0.5 sm:py-1">No events</div>
                 ) : (
                   day.events.map(event => (
-                    <div key={event.id} className={`text-xs p-1 rounded ${event.color} text-white truncate cursor-pointer hover:opacity-80`}>
+                    <div key={event.id} className={`text-[8px] sm:text-xs p-0.5 sm:p-1 rounded ${event.color} text-white truncate cursor-pointer hover:opacity-80`}>
                       {event.time && !event.allDay ? event.time : ''} {event.title}
                     </div>
                   ))
@@ -441,12 +441,12 @@ const Calendar = () => {
   const renderDayView = () => {
     const dayEvents = getEventsForDate(selectedDate);
     return (
-      <div className="p-4">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl font-bold text-gray-800 dark:text-white">
+      <div className="p-2 sm:p-4">
+        <div className="flex flex-wrap justify-between items-center mb-4">
+          <h3 className="text-base sm:text-xl font-bold text-gray-800 dark:text-white">
             {selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
           </h3>
-          <button onClick={() => { setEditingEvent(null); setIsModalOpen(true); }} className="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded-lg flex items-center gap-1 text-sm transition"><Plus size={16} /> Add</button>
+          <button onClick={() => { setEditingEvent(null); setIsModalOpen(true); }} className="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded-lg flex items-center gap-1 text-xs sm:text-sm transition"><Plus size={16} /> Add</button>
         </div>
         <div className="space-y-2">
           {dayEvents.length === 0 ? (
@@ -465,8 +465,8 @@ const Calendar = () => {
   const renderAgendaView = () => {
     const upcoming = getUpcomingEvents();
     return (
-      <div className="p-4">
-        <h3 className="text-xl font-bold mb-4">Upcoming Events</h3>
+      <div className="p-2 sm:p-4">
+        <h3 className="text-base sm:text-xl font-bold mb-4">Upcoming Events</h3>
         {upcoming.length === 0 ? (
           <div className="text-center py-8 text-gray-400">No upcoming events</div>
         ) : (
@@ -477,11 +477,11 @@ const Calendar = () => {
                 <div key={event.id} className="flex items-start gap-3 p-3 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 hover:shadow-md transition">
                   <div className={`w-1.5 h-full min-h-[40px] rounded-full ${event.color}`} />
                   <div className="flex-1">
-                    <div className="flex justify-between">
-                      <span className="font-medium">{event.title}</span>
+                    <div className="flex flex-wrap justify-between">
+                      <span className="font-medium text-sm sm:text-base">{event.title}</span>
                       <span className="text-xs text-gray-500">{formatDate(eventDate)}</span>
                     </div>
-                    <div className="flex flex-wrap gap-2 text-xs text-gray-500">
+                    <div className="flex flex-wrap gap-1 sm:gap-2 text-xs text-gray-500">
                       {event.time && !event.allDay && <span>{event.time}</span>}
                       {event.allDay && <span>All day</span>}
                       {event.location && <span>• {event.location}</span>}
@@ -498,23 +498,23 @@ const Calendar = () => {
   };
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-4 sm:space-y-6 animate-fade-in p-4 sm:p-0">
       {/* Header */}
-      <div className="flex flex-wrap justify-between items-center gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-4xl font-black bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">📅 Calendar</h1>
-          <p className="text-gray-500 dark:text-gray-400">Manage your schedule</p>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-black bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">📅 Calendar</h1>
+          <p className="text-sm md:text-base text-gray-500 dark:text-gray-400">Manage your schedule</p>
         </div>
-        <div className="flex gap-2">
-          <button onClick={goToday} className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl shadow transition">Today</button>
-          <button onClick={() => { setEditingEvent(null); setIsModalOpen(true); }} className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-xl shadow flex items-center gap-2 transition"><Plus size={18} /> Add Event</button>
+        <div className="flex flex-wrap gap-2">
+          <button onClick={goToday} className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl shadow transition text-sm sm:text-base">Today</button>
+          <button onClick={() => { setEditingEvent(null); setIsModalOpen(true); }} className="bg-purple-600 hover:bg-purple-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl shadow flex items-center gap-2 transition text-sm sm:text-base"><Plus size={18} /> Add Event</button>
         </div>
       </div>
 
       {/* Main Layout: Sidebar + Calendar */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Left Sidebar */}
-        <div className="lg:col-span-1 space-y-4">
+      <div className="flex flex-col lg:flex-row gap-6">
+        {/* Left Sidebar - appears on top on mobile, side on large screens */}
+        <div className="lg:w-1/4 space-y-4">
           <MiniCalendar 
             currentDate={currentDate}
             selectedDate={selectedDate}
@@ -551,25 +551,25 @@ const Calendar = () => {
         </div>
 
         {/* Main Calendar */}
-        <div className="lg:col-span-3">
+        <div className="lg:w-3/4">
           <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
             {/* Navigation */}
-            <div className="flex flex-wrap justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-purple-50/50 to-pink-50/50 dark:from-gray-800/50 dark:to-gray-700/50">
-              <div className="flex items-center gap-3">
-                <button onClick={prevPeriod} className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition"><ChevronLeft size={20} /></button>
-                <h2 className="text-xl font-bold text-gray-800 dark:text-white">
+            <div className="flex flex-col sm:flex-row flex-wrap justify-between items-center gap-2 p-3 sm:p-4 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-purple-50/50 to-pink-50/50 dark:from-gray-800/50 dark:to-gray-700/50">
+              <div className="flex items-center gap-2">
+                <button onClick={prevPeriod} className="p-1.5 sm:p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition"><ChevronLeft size={18} /></button>
+                <h2 className="text-base sm:text-lg md:text-xl font-bold text-gray-800 dark:text-white">
                   {view === 'month' ? `${getMonthName(month)} ${year}` : 
                    view === 'week' ? `Week of ${selectedDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}` :
                    view === 'day' ? selectedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) :
                    'Agenda'}
                 </h2>
-                <button onClick={nextPeriod} className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition"><ChevronRight size={20} /></button>
+                <button onClick={nextPeriod} className="p-1.5 sm:p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition"><ChevronRight size={18} /></button>
               </div>
-              <div className="flex gap-2">
-                <button onClick={() => setView('month')} className={`px-3 py-1 rounded-lg text-sm transition ${view === 'month' ? 'bg-purple-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}>Month</button>
-                <button onClick={() => setView('week')} className={`px-3 py-1 rounded-lg text-sm transition ${view === 'week' ? 'bg-purple-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}>Week</button>
-                <button onClick={() => setView('day')} className={`px-3 py-1 rounded-lg text-sm transition ${view === 'day' ? 'bg-purple-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}>Day</button>
-                <button onClick={() => setView('agenda')} className={`px-3 py-1 rounded-lg text-sm transition ${view === 'agenda' ? 'bg-purple-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}>Agenda</button>
+              <div className="flex flex-wrap gap-1 sm:gap-2">
+                <button onClick={() => setView('month')} className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg text-xs sm:text-sm transition ${view === 'month' ? 'bg-purple-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}>Month</button>
+                <button onClick={() => setView('week')} className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg text-xs sm:text-sm transition ${view === 'week' ? 'bg-purple-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}>Week</button>
+                <button onClick={() => setView('day')} className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg text-xs sm:text-sm transition ${view === 'day' ? 'bg-purple-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}>Day</button>
+                <button onClick={() => setView('agenda')} className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg text-xs sm:text-sm transition ${view === 'agenda' ? 'bg-purple-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}>Agenda</button>
               </div>
             </div>
 

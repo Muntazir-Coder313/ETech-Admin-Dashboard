@@ -10,7 +10,6 @@ import {
   Grid, List, Home, Inbox, Archive, HardDrive
 } from 'lucide-react';
 
-// ---------- MOCK DATA ----------
 const mockReports = [
   { id: 1, name: 'Q2 Sales Performance Report', category: 'Sales', date: '2026-06-15', status: 'Completed', format: 'PDF', size: '2.4 MB', author: 'Alice Johnson', pages: 12, starred: true, shared: true, scheduled: false },
   { id: 2, name: 'User Engagement Analysis', category: 'Marketing', date: '2026-06-12', status: 'Completed', format: 'PDF', size: '1.8 MB', author: 'Bob Smith', pages: 8, starred: false, shared: false, scheduled: true },
@@ -24,7 +23,6 @@ const mockReports = [
   { id: 10, name: 'Quarterly Financial Review', category: 'Finance', date: '2026-05-20', status: 'Pending', format: 'PDF', size: '5.6 MB', author: 'Jack White', pages: 25, starred: false, shared: false, scheduled: false },
 ];
 
-// Folders/Categories
 const folders = [
   { id: 'all', name: 'All Reports', icon: <Home size={18} />, count: 10 },
   { id: 'Sales', name: 'Sales Reports', icon: <TrendingUp size={18} />, count: 2 },
@@ -34,7 +32,6 @@ const folders = [
   { id: 'Retention', name: 'Retention Reports', icon: <Users size={18} />, count: 1 },
 ];
 
-// Templates for report generation
 const templates = [
   { id: 1, name: 'Sales Performance', description: 'Monthly sales overview', icon: <TrendingUp size={16} /> },
   { id: 2, name: 'Marketing Analytics', description: 'Campaign effectiveness', icon: <BarChart3 size={16} /> },
@@ -42,12 +39,9 @@ const templates = [
   { id: 4, name: 'Customer Insights', description: 'Behavior & retention', icon: <Users size={16} /> },
 ];
 
-// ---------- SUBCOMPONENTS ----------
-
-// Folder Sidebar
 const FolderSidebar = ({ selected, onSelect, collapsed, onToggleCollapse }) => {
   return (
-    <div className={`${collapsed ? 'w-16' : 'w-56'} bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-3 transition-all duration-300 overflow-hidden h-full`}>
+    <div className={`${collapsed ? 'w-16' : 'w-56'} bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-3 transition-all duration-300 overflow-hidden h-full flex-shrink-0`}>
       <div className="flex justify-between items-center mb-3">
         {!collapsed && <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Folders</span>}
         <button onClick={onToggleCollapse} className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition">
@@ -95,7 +89,6 @@ const FolderSidebar = ({ selected, onSelect, collapsed, onToggleCollapse }) => {
   );
 };
 
-// Report Card Component
 const ReportCard = ({ report, onStar, onDelete, onView, onDownload }) => {
   const getStatusColor = (status) => {
     switch(status) {
@@ -147,7 +140,6 @@ const ReportCard = ({ report, onStar, onDelete, onView, onDownload }) => {
   );
 };
 
-// Generate Report Modal
 const GenerateModal = ({ isOpen, onClose, onGenerate }) => {
   const [step, setStep] = useState(1);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
@@ -170,17 +162,16 @@ const GenerateModal = ({ isOpen, onClose, onGenerate }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in">
-      <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-[520px] max-w-[95vw] max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-200 dark:border-gray-700">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 w-full max-w-[95vw] sm:max-w-[520px] max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-200 dark:border-gray-700">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl font-bold flex items-center gap-2">
+          <h3 className="text-lg sm:text-xl font-bold flex items-center gap-2">
             <Sparkles size={20} className="text-purple-500" />
             Generate Report
           </h3>
           <button onClick={onClose} className="p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition"><X size={20} /></button>
         </div>
 
-        {/* Steps indicator */}
         <div className="flex items-center gap-2 mb-6">
           <div className={`flex-1 h-1 rounded-full ${step >= 1 ? 'bg-purple-500' : 'bg-gray-300 dark:bg-gray-600'}`} />
           <div className={`flex-1 h-1 rounded-full ${step >= 2 ? 'bg-purple-500' : 'bg-gray-300 dark:bg-gray-600'}`} />
@@ -189,7 +180,7 @@ const GenerateModal = ({ isOpen, onClose, onGenerate }) => {
         {step === 1 ? (
           <div className="space-y-4">
             <p className="text-sm text-gray-500">Choose a template to get started</p>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {templates.map(t => (
                 <button
                   key={t.id}
@@ -210,15 +201,15 @@ const GenerateModal = ({ isOpen, onClose, onGenerate }) => {
               placeholder="Report name"
               value={form.name}
               onChange={e => setForm({...form, name: e.target.value})}
-              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none"
+              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none text-sm"
             />
-            <select value={form.category} onChange={e => setForm({...form, category: e.target.value})} className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70">
+            <select value={form.category} onChange={e => setForm({...form, category: e.target.value})} className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 text-sm">
               <option>Sales</option><option>Marketing</option><option>Finance</option><option>Product</option><option>Retention</option>
             </select>
-            <select value={form.format} onChange={e => setForm({...form, format: e.target.value})} className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70">
+            <select value={form.format} onChange={e => setForm({...form, format: e.target.value})} className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 text-sm">
               <option>PDF</option><option>Excel</option><option>CSV</option><option>PPT</option>
             </select>
-            <select value={form.schedule} onChange={e => setForm({...form, schedule: e.target.value})} className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70">
+            <select value={form.schedule} onChange={e => setForm({...form, schedule: e.target.value})} className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 text-sm">
               <option value="none">Run once</option>
               <option value="daily">Daily</option>
               <option value="weekly">Weekly</option>
@@ -229,9 +220,9 @@ const GenerateModal = ({ isOpen, onClose, onGenerate }) => {
               placeholder="Recipients (email, comma separated)"
               value={form.recipients}
               onChange={e => setForm({...form, recipients: e.target.value})}
-              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none"
+              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none text-sm"
             />
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <button onClick={handleBack} className="flex-1 bg-gray-200 dark:bg-gray-700 py-2 rounded-lg hover:bg-gray-300 transition">Back</button>
               <button onClick={handleGenerate} className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2 rounded-lg hover:shadow-lg transition">Generate</button>
             </div>
@@ -242,7 +233,6 @@ const GenerateModal = ({ isOpen, onClose, onGenerate }) => {
   );
 };
 
-// Quick Stats
 const QuickStat = ({ icon, label, value, color }) => (
   <div className="flex items-center gap-3 bg-white/50 dark:bg-gray-800/50 rounded-xl px-3 py-2 border border-gray-200/50 dark:border-gray-700/50">
     <div className={`p-1.5 rounded-lg bg-${color}-100 dark:bg-${color}-900/30 text-${color}-600`}>{icon}</div>
@@ -253,7 +243,6 @@ const QuickStat = ({ icon, label, value, color }) => (
   </div>
 );
 
-// ---------- MAIN COMPONENT ----------
 const Reports = () => {
   const [reports, setReports] = useState(mockReports);
   const [selectedFolder, setSelectedFolder] = useState('all');
@@ -266,7 +255,6 @@ const Reports = () => {
   const [refreshing, setRefreshing] = useState(false);
   const itemsPerPage = 6;
 
-  // Filtering
   const filtered = useMemo(() => {
     let result = [...reports];
     if (selectedFolder !== 'all') result = result.filter(r => r.category === selectedFolder);
@@ -281,12 +269,10 @@ const Reports = () => {
   const totalPages = Math.ceil(sorted.length / itemsPerPage);
   const paginated = sorted.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
-  // Stats
   const totalReports = reports.length;
   const completedReports = reports.filter(r => r.status === 'Completed').length;
   const scheduledReports = reports.filter(r => r.scheduled).length;
 
-  // Handlers
   const handleStar = (id) => {
     setReports(reports.map(r => r.id === id ? { ...r, starred: !r.starred } : r));
     toast.success('Report updated');
@@ -332,30 +318,26 @@ const Reports = () => {
   };
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      {/* Header */}
-      <div className="flex flex-wrap justify-between items-center gap-4">
+    <div className="space-y-4 sm:space-y-6 animate-fade-in p-4 sm:p-0">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-4xl font-black bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent">📄 Report Center</h1>
-          <p className="text-gray-500 dark:text-gray-400">Manage, generate, and share reports</p>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-black bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent">📄 Report Center</h1>
+          <p className="text-sm md:text-base text-gray-500 dark:text-gray-400">Manage, generate, and share reports</p>
         </div>
-        <div className="flex gap-2">
-          <button onClick={handleRefresh} disabled={refreshing} className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded-xl shadow transition"><RefreshCw size={18} className={refreshing ? 'animate-spin' : ''} /></button>
-          <button onClick={() => setIsGenerateOpen(true)} className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-4 py-2 rounded-xl shadow flex items-center gap-2 transition"><Sparkles size={18} /> Generate</button>
+        <div className="flex flex-wrap gap-2">
+          <button onClick={handleRefresh} disabled={refreshing} className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1.5 sm:py-2 rounded-xl shadow transition text-sm"><RefreshCw size={18} className={refreshing ? 'animate-spin' : ''} /></button>
+          <button onClick={() => setIsGenerateOpen(true)} className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl shadow flex items-center gap-2 transition text-sm"><Sparkles size={18} /> Generate</button>
         </div>
       </div>
 
-      {/* Quick Stats */}
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap gap-2 sm:gap-3">
         <QuickStat icon={<FileText size={16} />} label="Total Reports" value={totalReports} color="blue" />
         <QuickStat icon={<CheckCircle size={16} />} label="Completed" value={completedReports} color="green" />
         <QuickStat icon={<Clock size={16} />} label="Scheduled" value={scheduledReports} color="purple" />
         <QuickStat icon={<Share2 size={16} />} label="Shared" value={reports.filter(r => r.shared).length} color="teal" />
       </div>
 
-      {/* Main Layout */}
-      <div className="flex gap-6 h-[calc(100vh-380px)] min-h-[400px]">
-        {/* Folder Sidebar */}
+      <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 min-h-[400px] sm:h-[calc(100vh-380px)]">
         <FolderSidebar
           selected={selectedFolder}
           onSelect={setSelectedFolder}
@@ -363,12 +345,10 @@ const Reports = () => {
           onToggleCollapse={() => setFolderCollapsed(!folderCollapsed)}
         />
 
-        {/* Content Area */}
         <div className="flex-1 bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 overflow-hidden flex flex-col">
-          {/* Toolbar */}
-          <div className="flex flex-wrap justify-between items-center gap-2 p-3 border-b border-gray-200/50 dark:border-gray-700/50">
-            <div className="flex gap-2 flex-1 min-w-[200px]">
-              <div className="relative flex-1 max-w-sm">
+          <div className="flex flex-wrap justify-between items-center gap-2 p-2 sm:p-3 border-b border-gray-200/50 dark:border-gray-700/50">
+            <div className="flex gap-2 flex-1 min-w-[150px]">
+              <div className="relative flex-1 max-w-full sm:max-w-sm">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <input
                   type="text"
@@ -385,44 +365,48 @@ const Reports = () => {
             </div>
           </div>
 
-          {/* Content */}
-          <div className="flex-1 overflow-y-auto p-4">
+          <div className="flex-1 overflow-y-auto p-3 sm:p-4">
             {viewMode === 'grid' ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                 {paginated.map(r => <ReportCard key={r.id} report={r} onStar={handleStar} onDelete={handleDelete} onView={handleView} onDownload={handleDownload} />)}
                 {paginated.length === 0 && <div className="col-span-full text-center py-12 text-gray-400">No reports in this folder</div>}
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <table className="min-w-full">
-                  <thead className="bg-gray-50/50 dark:bg-gray-800/50">
-                    <tr>{['Name', 'Category', 'Date', 'Status', 'Format', ''].map(h => <th key={h} className="px-3 py-2 text-left text-xs font-semibold text-gray-500 uppercase">{h}</th>)}</tr>
-                  </thead>
-                  <tbody>
-                    {paginated.map(r => (
-                      <tr key={r.id} className="border-t border-gray-200/50 dark:border-gray-700/50 hover:bg-gray-50/50 dark:hover:bg-gray-800/50 transition">
-                        <td className="px-3 py-2 text-sm font-medium">{r.name}</td>
-                        <td className="px-3 py-2 text-xs">{r.category}</td>
-                        <td className="px-3 py-2 text-xs">{r.date}</td>
-                        <td className="px-3 py-2"><span className={`px-2 py-0.5 rounded-full text-xs ${r.status === 'Completed' ? 'bg-green-100 text-green-700' : r.status === 'Draft' ? 'bg-blue-100 text-blue-700' : 'bg-yellow-100 text-yellow-700'}`}>{r.status}</span></td>
-                        <td className="px-3 py-2 text-xs">{r.format}</td>
-                        <td className="px-3 py-2 flex gap-1">
-                          <button onClick={() => handleStar(r.id)}>{r.starred ? <Star size={14} className="text-yellow-500" fill="currentColor" /> : <Star size={14} className="text-gray-400" />}</button>
-                          <button onClick={() => handleView(r)}><Eye size={14} className="text-blue-500" /></button>
-                          <button onClick={() => handleDownload(r.id)}><Download size={14} className="text-green-500" /></button>
-                          <button onClick={() => handleDelete(r.id)}><Trash2 size={14} className="text-red-500" /></button>
-                        </td>
+              <div className="overflow-x-auto -mx-3 sm:mx-0">
+                <div className="min-w-full inline-block align-middle">
+                  <table className="min-w-full divide-y divide-gray-200/50 dark:divide-gray-700/50">
+                    <thead className="bg-gray-50/50 dark:bg-gray-800/50">
+                      <tr>
+                        {['Name', 'Category', 'Date', 'Status', 'Format', ''].map((h, idx) => (
+                          <th key={idx} className="px-3 py-2 text-left text-xs font-semibold text-gray-500 uppercase whitespace-nowrap">{h}</th>
+                        ))}
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {paginated.map(r => (
+                        <tr key={r.id} className="border-t border-gray-200/50 dark:border-gray-700/50 hover:bg-gray-50/50 dark:hover:bg-gray-800/50 transition">
+                          <td className="px-3 py-2 text-sm font-medium whitespace-nowrap">{r.name}</td>
+                          <td className="px-3 py-2 text-xs whitespace-nowrap">{r.category}</td>
+                          <td className="px-3 py-2 text-xs whitespace-nowrap">{r.date}</td>
+                          <td className="px-3 py-2 whitespace-nowrap"><span className={`px-2 py-0.5 rounded-full text-xs ${r.status === 'Completed' ? 'bg-green-100 text-green-700' : r.status === 'Draft' ? 'bg-blue-100 text-blue-700' : 'bg-yellow-100 text-yellow-700'}`}>{r.status}</span></td>
+                          <td className="px-3 py-2 text-xs whitespace-nowrap">{r.format}</td>
+                          <td className="px-3 py-2 flex gap-1 whitespace-nowrap">
+                            <button onClick={() => handleStar(r.id)}>{r.starred ? <Star size={14} className="text-yellow-500" fill="currentColor" /> : <Star size={14} className="text-gray-400" />}</button>
+                            <button onClick={() => handleView(r)}><Eye size={14} className="text-blue-500" /></button>
+                            <button onClick={() => handleDownload(r.id)}><Download size={14} className="text-green-500" /></button>
+                            <button onClick={() => handleDelete(r.id)}><Trash2 size={14} className="text-red-500" /></button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             )}
           </div>
 
-          {/* Pagination */}
           {totalPages > 1 && (
-            <div className="flex justify-between items-center p-3 border-t border-gray-200/50 dark:border-gray-700/50 bg-gray-50/30 dark:bg-gray-800/30">
+            <div className="flex justify-between items-center p-2 sm:p-3 border-t border-gray-200/50 dark:border-gray-700/50 bg-gray-50/30 dark:bg-gray-800/30">
               <button disabled={currentPage === 1} onClick={() => setCurrentPage(p => p-1)} className="px-3 py-1 rounded bg-gray-200 dark:bg-gray-700 disabled:opacity-50 text-sm"><ChevronLeft size={14} /></button>
               <span className="text-sm">Page {currentPage} of {totalPages}</span>
               <button disabled={currentPage === totalPages} onClick={() => setCurrentPage(p => p+1)} className="px-3 py-1 rounded bg-gray-200 dark:bg-gray-700 disabled:opacity-50 text-sm"><ChevronRight size={14} /></button>
@@ -431,18 +415,16 @@ const Reports = () => {
         </div>
       </div>
 
-      {/* Generate Modal */}
       <GenerateModal isOpen={isGenerateOpen} onClose={() => setIsGenerateOpen(false)} onGenerate={handleGenerate} />
 
-      {/* View Modal */}
       {selectedReport && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-[480px] max-w-[95vw] max-h-[90vh] overflow-y-auto shadow-2xl">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 w-full max-w-md sm:max-w-[480px] max-h-[90vh] overflow-y-auto shadow-2xl">
             <div className="flex justify-between items-start mb-4">
-              <div><h3 className="text-xl font-bold">{selectedReport.name}</h3><p className="text-sm text-gray-500">{selectedReport.author} • {selectedReport.date}</p></div>
+              <div><h3 className="text-lg sm:text-xl font-bold">{selectedReport.name}</h3><p className="text-sm text-gray-500">{selectedReport.author} • {selectedReport.date}</p></div>
               <button onClick={() => setSelectedReport(null)} className="p-1 rounded hover:bg-gray-100"><X size={20} /></button>
             </div>
-            <div className="grid grid-cols-2 gap-3 text-sm">
+            <div className="grid grid-cols-2 gap-2 sm:gap-3 text-sm">
               <div><span className="text-gray-500">Category:</span> {selectedReport.category}</div>
               <div><span className="text-gray-500">Status:</span> <span className={`px-2 py-0.5 rounded-full text-xs ${selectedReport.status === 'Completed' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'}`}>{selectedReport.status}</span></div>
               <div><span className="text-gray-500">Format:</span> {selectedReport.format}</div>
@@ -450,9 +432,9 @@ const Reports = () => {
               <div><span className="text-gray-500">Size:</span> {selectedReport.size}</div>
               <div><span className="text-gray-500">Shared:</span> {selectedReport.shared ? 'Yes' : 'No'}</div>
             </div>
-            <div className="flex gap-2 mt-4 pt-4 border-t">
-              <button onClick={() => handleDownload(selectedReport.id)} className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"><Download size={16} className="inline mr-2" /> Download</button>
-              <button className="flex-1 bg-gray-200 dark:bg-gray-700 py-2 rounded-lg hover:bg-gray-300"><Share2 size={16} className="inline mr-2" /> Share</button>
+            <div className="flex flex-col sm:flex-row gap-2 mt-4 pt-4 border-t">
+              <button onClick={() => handleDownload(selectedReport.id)} className="w-full sm:flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"><Download size={16} className="inline mr-2" /> Download</button>
+              <button className="w-full sm:flex-1 bg-gray-200 dark:bg-gray-700 py-2 rounded-lg hover:bg-gray-300"><Share2 size={16} className="inline mr-2" /> Share</button>
             </div>
           </div>
         </div>

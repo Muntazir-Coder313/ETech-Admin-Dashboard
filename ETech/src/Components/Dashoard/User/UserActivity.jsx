@@ -27,7 +27,6 @@ const UserActivity = () => {
     return matchesSearch && matchesType && matchesDate;
   });
 
-  // Group logs by date
   const groupedLogs = filteredLogs.reduce((groups, log) => {
     const date = log.timestamp.split(' ')[0];
     if (!groups[date]) groups[date] = [];
@@ -60,32 +59,43 @@ const UserActivity = () => {
   };
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      <div className="flex flex-wrap justify-between items-center gap-4">
-        <div><h1 className="text-4xl font-black bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">User Activity</h1><p className="text-gray-500">Audit trail of all user actions</p></div>
-        <button onClick={exportCSV} className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl shadow flex items-center gap-2"><Download size={18}/> Export CSV</button>
+    <div className="space-y-4 sm:space-y-6 animate-fade-in p-4 sm:p-0">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-black bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">User Activity</h1>
+          <p className="text-sm md:text-base text-gray-500">Audit trail of all user actions</p>
+        </div>
+        <button onClick={exportCSV} className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl shadow flex items-center gap-2 text-sm w-full sm:w-auto"><Download size={18}/> Export CSV</button>
       </div>
 
-      <div className="flex flex-wrap gap-3">
-        <div className="relative flex-1 max-w-md"><Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" /><input type="text" placeholder="Search by user or action..." value={search} onChange={e => { setSearch(e.target.value); setCurrentPage(1); }} className="w-full pl-9 pr-3 py-2 border rounded-xl bg-white/70 dark:bg-gray-900/70" /></div>
-        <select value={typeFilter} onChange={e => { setTypeFilter(e.target.value); setCurrentPage(1); }} className="border rounded-xl px-3 py-2 bg-white/70"><option value="all">All Types</option><option value="create">Create</option><option value="update">Update</option><option value="delete">Delete</option><option value="login">Login</option><option value="role_change">Role Change</option><option value="export">Export</option></select>
-        <input type="date" value={dateFilter} onChange={e => { setDateFilter(e.target.value); setCurrentPage(1); }} className="border rounded-xl px-3 py-2 bg-white/70" />
+      <div className="flex flex-col sm:flex-row flex-wrap gap-3">
+        <div className="relative flex-1 max-w-full sm:max-w-md">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+          <input type="text" placeholder="Search by user or action..." value={search} onChange={e => { setSearch(e.target.value); setCurrentPage(1); }} className="w-full pl-9 pr-3 py-2 border rounded-xl bg-white/70 dark:bg-gray-900/70 text-sm" />
+        </div>
+        <select value={typeFilter} onChange={e => { setTypeFilter(e.target.value); setCurrentPage(1); }} className="w-full sm:w-auto border rounded-xl px-3 py-2 bg-white/70 text-sm">
+          <option value="all">All Types</option>
+          <option value="create">Create</option><option value="update">Update</option>
+          <option value="delete">Delete</option><option value="login">Login</option>
+          <option value="role_change">Role Change</option><option value="export">Export</option>
+        </select>
+        <input type="date" value={dateFilter} onChange={e => { setDateFilter(e.target.value); setCurrentPage(1); }} className="w-full sm:w-auto border rounded-xl px-3 py-2 bg-white/70 text-sm" />
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6">
         {paginatedDates.map(date => (
           <div key={date}>
-            <div className="flex items-center gap-2 mb-3"><Calendar size={18} className="text-blue-500"/><h3 className="text-lg font-semibold">{date}</h3></div>
-            <div className="space-y-3">
+            <div className="flex items-center gap-2 mb-2 sm:mb-3"><Calendar size={18} className="text-blue-500"/><h3 className="text-base sm:text-lg font-semibold">{date}</h3></div>
+            <div className="space-y-2 sm:space-y-3">
               {groupedLogs[date].map(log => (
-                <div key={log.id} className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition flex items-start gap-4">
-                  <img src={log.avatar} className="w-10 h-10 rounded-full object-cover" alt="avatar" />
-                  <div className="flex-1">
-                    <div className="flex flex-wrap justify-between items-start">
-                      <div><span className="font-bold">{log.user}</span> <span className="text-gray-600 dark:text-gray-300">• {log.action}</span></div>
-                      <span className="text-xs text-gray-400 flex items-center gap-1"><Clock size={12}/> {log.timestamp.split(' ')[1]}</span>
+                <div key={log.id} className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm rounded-2xl p-3 sm:p-4 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4">
+                  <img src={log.avatar} className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover flex-shrink-0" alt="avatar" />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-wrap justify-between items-start gap-1">
+                      <div><span className="font-bold text-sm sm:text-base">{log.user}</span> <span className="text-gray-600 dark:text-gray-300 text-sm">• {log.action}</span></div>
+                      <span className="text-xs text-gray-400 flex items-center gap-1 flex-shrink-0"><Clock size={12}/> {log.timestamp.split(' ')[1]}</span>
                     </div>
-                    <div className="flex items-center gap-3 mt-2 text-xs text-gray-500">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-1 sm:mt-2 text-xs text-gray-500">
                       <span className="flex items-center gap-1"><Globe size={12}/> {log.ip}</span>
                       <span className="flex items-center gap-1">{getTypeIcon(log.type)} {log.type.replace('_', ' ')}</span>
                     </div>
@@ -98,12 +108,11 @@ const UserActivity = () => {
         {filteredLogs.length === 0 && <div className="text-center py-8 text-gray-400">No activity found</div>}
       </div>
 
-      {/* Pagination for date groups */}
       {totalPages > 1 && (
-        <div className="flex justify-center gap-2 pt-4">
-          <button onClick={() => setCurrentPage(p => Math.max(1, p-1))} disabled={currentPage === 1} className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50">&lt;</button>
-          <span className="px-3 py-1">Page {currentPage} of {totalPages}</span>
-          <button onClick={() => setCurrentPage(p => Math.min(totalPages, p+1))} disabled={currentPage === totalPages} className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50">&gt;</button>
+        <div className="flex justify-center gap-2 pt-2 sm:pt-4">
+          <button onClick={() => setCurrentPage(p => Math.max(1, p-1))} disabled={currentPage === 1} className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50 text-sm">&lt;</button>
+          <span className="px-3 py-1 text-sm">Page {currentPage} of {totalPages}</span>
+          <button onClick={() => setCurrentPage(p => Math.min(totalPages, p+1))} disabled={currentPage === totalPages} className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50 text-sm">&gt;</button>
         </div>
       )}
     </div>

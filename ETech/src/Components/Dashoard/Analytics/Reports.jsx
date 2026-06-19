@@ -35,61 +35,107 @@ const Reports = () => {
     link.click();
   };
 
-  // Summary stats
   const totalReports = filtered.length;
   const completedCount = filtered.filter(r => r.status === 'Completed').length;
   const pendingCount = filtered.filter(r => r.status === 'Needs review').length;
 
   return (
-    <div className="animate-fade-in space-y-6">
-      <div className="flex flex-wrap justify-between items-center gap-4">
-        <div><h1 className="text-4xl font-black bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">Reports Library</h1><p className="text-gray-500">Manage, search & export reports</p></div>
-        <button onClick={exportCSV} className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white px-5 py-2.5 rounded-xl text-sm font-medium shadow-md transition">📎 Export CSV</button>
+    <div className="animate-fade-in space-y-4 md:space-y-6 p-4 md:p-0">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-black bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">Reports Library</h1>
+          <p className="text-sm md:text-base text-gray-500">Manage, search & export reports</p>
+        </div>
+        <button onClick={exportCSV} className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white px-4 md:px-5 py-2 rounded-xl text-sm font-medium shadow-md transition flex items-center justify-center gap-2">
+          📎 Export CSV
+        </button>
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm rounded-xl p-4 border flex justify-between items-center"><span className="text-gray-600">📄 Total Reports</span><span className="text-2xl font-bold">{totalReports}</span></div>
-        <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm rounded-xl p-4 border flex justify-between items-center"><span className="text-gray-600">✅ Completed</span><span className="text-2xl font-bold text-green-600">{completedCount}</span></div>
-        <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm rounded-xl p-4 border flex justify-between items-center"><span className="text-gray-600">⚠️ Needs Review</span><span className="text-2xl font-bold text-amber-600">{pendingCount}</span></div>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
+        <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm rounded-xl p-3 md:p-4 border flex justify-between items-center">
+          <span className="text-gray-600 text-sm md:text-base">📄 Total Reports</span>
+          <span className="text-xl md:text-2xl font-bold">{totalReports}</span>
+        </div>
+        <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm rounded-xl p-3 md:p-4 border flex justify-between items-center">
+          <span className="text-gray-600 text-sm md:text-base">✅ Completed</span>
+          <span className="text-xl md:text-2xl font-bold text-green-600">{completedCount}</span>
+        </div>
+        <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm rounded-xl p-3 md:p-4 border flex justify-between items-center">
+          <span className="text-gray-600 text-sm md:text-base">⚠️ Needs Review</span>
+          <span className="text-xl md:text-2xl font-bold text-amber-600">{pendingCount}</span>
+        </div>
       </div>
 
       {/* Filters */}
-      <div className="flex flex-wrap gap-3">
-        <input type="text" placeholder="Search by name..." value={search} onChange={e => setSearch(e.target.value)} className="border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-2 bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm text-sm w-64 focus:ring-2 focus:ring-blue-500" />
-        <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} className="border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-2 bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm text-sm">
-          <option value="all">All status</option><option value="Completed">Completed</option><option value="Needs review">Needs review</option>
+      <div className="flex flex-col sm:flex-row gap-3">
+        <input 
+          type="text" 
+          placeholder="Search by name..." 
+          value={search} 
+          onChange={e => setSearch(e.target.value)} 
+          className="w-full sm:w-64 border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-2 bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm text-sm focus:ring-2 focus:ring-blue-500" 
+        />
+        <select 
+          value={filterStatus} 
+          onChange={e => setFilterStatus(e.target.value)} 
+          className="w-full sm:w-auto border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-2 bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm text-sm"
+        >
+          <option value="all">All status</option>
+          <option value="Completed">Completed</option>
+          <option value="Needs review">Needs review</option>
         </select>
-        <select value={filterCategory} onChange={e => setFilterCategory(e.target.value)} className="border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-2 bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm text-sm">
+        <select 
+          value={filterCategory} 
+          onChange={e => setFilterCategory(e.target.value)} 
+          className="w-full sm:w-auto border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-2 bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm text-sm"
+        >
           {categories.map(cat => <option key={cat} value={cat}>{cat === 'all' ? 'All categories' : cat}</option>)}
         </select>
       </div>
 
       {/* Reports Table */}
       <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
-        <div className="overflow-x-auto">
-          <table className="min-w-full">
-            <thead className="bg-gray-100/50 dark:bg-gray-800/50">
-              <tr>{['Name', 'Date', 'Status', 'Type', 'Size', 'Category', ''].map(h => <th key={h} className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">{h}</th>)}</tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-              {filtered.map(r => (
-                <tr key={r.id} className="hover:bg-gray-100/50 dark:hover:bg-gray-800/50 transition">
-                  <td className="px-6 py-4 text-sm font-medium">{r.name}</td>
-                  <td className="px-6 py-4 text-sm">{r.date}</td>
-                  <td className="px-6 py-4"><span className={`px-2 py-1 rounded-full text-xs font-medium ${r.status === 'Completed' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>{r.status}</span></td>
-                  <td className="px-6 py-4 text-sm">{r.type}</td>
-                  <td className="px-6 py-4 text-sm">{r.size}</td>
-                  <td className="px-6 py-4 text-sm"><span className="px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 text-xs">{r.category}</span></td>
-                  <td className="px-6 py-4"><button className="text-blue-500 hover:text-blue-700 text-sm font-medium">Download</button></td>
+        <div className="overflow-x-auto -mx-4 md:mx-0">
+          <div className="min-w-full inline-block align-middle">
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead className="bg-gray-100/50 dark:bg-gray-800/50">
+                <tr>
+                  {['Name', 'Date', 'Status', 'Type', 'Size', 'Category', ''].map((h, index) => (
+                    <th key={index} className="px-3 md:px-6 py-2 md:py-3 text-left text-xs font-semibold text-gray-600 uppercase whitespace-nowrap">
+                      {h}
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
-          {filtered.length === 0 && <div className="text-center py-8 text-gray-400">No reports match.</div>}
+              </thead>
+              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                {filtered.map(r => (
+                  <tr key={r.id} className="hover:bg-gray-100/50 dark:hover:bg-gray-800/50 transition">
+                    <td className="px-3 md:px-6 py-2 md:py-4 text-sm font-medium whitespace-nowrap">{r.name}</td>
+                    <td className="px-3 md:px-6 py-2 md:py-4 text-sm whitespace-nowrap">{r.date}</td>
+                    <td className="px-3 md:px-6 py-2 md:py-4 whitespace-nowrap">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        r.status === 'Completed' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
+                      }`}>{r.status}</span>
+                    </td>
+                    <td className="px-3 md:px-6 py-2 md:py-4 text-sm whitespace-nowrap">{r.type}</td>
+                    <td className="px-3 md:px-6 py-2 md:py-4 text-sm whitespace-nowrap">{r.size}</td>
+                    <td className="px-3 md:px-6 py-2 md:py-4 text-sm whitespace-nowrap">
+                      <span className="px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 text-xs">{r.category}</span>
+                    </td>
+                    <td className="px-3 md:px-6 py-2 md:py-4 whitespace-nowrap">
+                      <button className="text-blue-500 hover:text-blue-700 text-sm font-medium">Download</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
+        {filtered.length === 0 && <div className="text-center py-8 text-gray-400">No reports match.</div>}
       </div>
     </div>
   );
 };
+
 export default Reports;

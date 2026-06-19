@@ -7,10 +7,8 @@ import {
   LogOut, Key, Fingerprint, Server, Database, Eye,
   EyeOff, RefreshCw
 } from 'lucide-react';
-// ✅ Import your profile image
 import Profile from '../../../Image/Profile.jpg';
 
-// ---------- TABS ----------
 const tabs = [
   { id: 'profile', label: 'Profile', icon: <User size={18} /> },
   { id: 'appearance', label: 'Appearance', icon: <Palette size={18} /> },
@@ -19,17 +17,11 @@ const tabs = [
   { id: 'preferences', label: 'Preferences', icon: <Globe size={18} /> },
 ];
 
-// ---------- SUBCOMPONENTS ----------
-
-// Profile Tab – With Your Image
 const ProfileTab = ({ user, onUpdate }) => {
   const [form, setForm] = useState(user);
   const [editing, setEditing] = useState(false);
 
-  // Get initials for fallback
-  const getInitials = (name) => {
-    return name.split(' ').map(n => n[0]).join('').toUpperCase();
-  };
+  const getInitials = (name) => name.split(' ').map(n => n[0]).join('').toUpperCase();
 
   const handleSave = () => {
     onUpdate(form);
@@ -39,19 +31,17 @@ const ProfileTab = ({ user, onUpdate }) => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-4 sm:gap-6">
         <div className="relative">
-          {/* Profile Image – same as sidebar */}
           <img
             src={Profile}
             alt="Profile"
-            className="w-20 h-20 rounded-full ring-4 ring-purple-500/30 object-cover"
+            className="w-16 h-16 sm:w-20 sm:h-20 rounded-full ring-4 ring-purple-500/30 object-cover"
             onError={(e) => {
-              // Fallback: if image fails, show gradient initials
               e.target.style.display = 'none';
               const parent = e.target.parentElement;
               const fallback = document.createElement('div');
-              fallback.className = 'w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold shadow-lg ring-4 ring-purple-500/30';
+              fallback.className = 'w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl sm:text-3xl font-bold shadow-lg ring-4 ring-purple-500/30';
               fallback.textContent = getInitials(form.name);
               parent.appendChild(fallback);
             }}
@@ -61,9 +51,9 @@ const ProfileTab = ({ user, onUpdate }) => {
           </button>
         </div>
         <div>
-          <h3 className="text-xl font-bold text-gray-800 dark:text-white">{form.name}</h3>
-          <p className="text-gray-500 dark:text-gray-400">{form.email}</p>
-          <p className="text-sm text-gray-400">Member since {form.joined}</p>
+          <h3 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-white">{form.name}</h3>
+          <p className="text-gray-500 dark:text-gray-400 text-sm">{form.email}</p>
+          <p className="text-xs text-gray-400">Member since {form.joined}</p>
         </div>
       </div>
 
@@ -75,7 +65,7 @@ const ProfileTab = ({ user, onUpdate }) => {
             value={form.name}
             onChange={e => setForm({...form, name: e.target.value})}
             disabled={!editing}
-            className={`w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none ${!editing ? 'opacity-60' : ''}`}
+            className={`w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none text-sm ${!editing ? 'opacity-60' : ''}`}
           />
         </div>
         <div>
@@ -85,7 +75,7 @@ const ProfileTab = ({ user, onUpdate }) => {
             value={form.email}
             onChange={e => setForm({...form, email: e.target.value})}
             disabled={!editing}
-            className={`w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none ${!editing ? 'opacity-60' : ''}`}
+            className={`w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none text-sm ${!editing ? 'opacity-60' : ''}`}
           />
         </div>
         <div className="md:col-span-2">
@@ -95,23 +85,23 @@ const ProfileTab = ({ user, onUpdate }) => {
             value={form.bio || ''}
             onChange={e => setForm({...form, bio: e.target.value})}
             disabled={!editing}
-            className={`w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none ${!editing ? 'opacity-60' : ''}`}
+            className={`w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none text-sm ${!editing ? 'opacity-60' : ''}`}
             placeholder="Tell us about yourself..."
           />
         </div>
       </div>
 
-      <div className="flex gap-3">
+      <div className="flex flex-col sm:flex-row gap-3">
         {!editing ? (
-          <button onClick={() => setEditing(true)} className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition flex items-center gap-2">
+          <button onClick={() => setEditing(true)} className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition flex items-center gap-2 justify-center">
             <Edit2 size={16} /> Edit Profile
           </button>
         ) : (
           <>
-            <button onClick={handleSave} className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition flex items-center gap-2">
+            <button onClick={handleSave} className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition flex items-center gap-2 justify-center">
               <Save size={16} /> Save
             </button>
-            <button onClick={() => setEditing(false)} className="bg-gray-200 dark:bg-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition">Cancel</button>
+            <button onClick={() => setEditing(false)} className="bg-gray-200 dark:bg-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition justify-center">Cancel</button>
           </>
         )}
       </div>
@@ -119,7 +109,6 @@ const ProfileTab = ({ user, onUpdate }) => {
   );
 };
 
-// Appearance Tab – unchanged
 const AppearanceTab = ({ settings, onUpdate }) => {
   const [darkMode, setDarkMode] = useState(settings.darkMode);
   const [fontSize, setFontSize] = useState(settings.fontSize || 'medium');
@@ -139,7 +128,7 @@ const AppearanceTab = ({ settings, onUpdate }) => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between p-4 bg-white/50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-white/50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700 gap-3">
         <div className="flex items-center gap-3">
           {darkMode ? <Moon size={20} className="text-purple-500" /> : <Sun size={20} className="text-yellow-500" />}
           <div>
@@ -149,7 +138,7 @@ const AppearanceTab = ({ settings, onUpdate }) => {
         </div>
         <button
           onClick={handleChange}
-          className={`relative w-12 h-6 rounded-full transition-colors ${darkMode ? 'bg-purple-600' : 'bg-gray-300 dark:bg-gray-600'}`}
+          className={`relative w-12 h-6 rounded-full transition-colors flex-shrink-0 ${darkMode ? 'bg-purple-600' : 'bg-gray-300 dark:bg-gray-600'}`}
         >
           <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${darkMode ? 'translate-x-6' : 'translate-x-0.5'}`} />
         </button>
@@ -157,7 +146,7 @@ const AppearanceTab = ({ settings, onUpdate }) => {
 
       <div className="p-4 bg-white/50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700">
         <p className="font-medium text-gray-800 dark:text-white mb-3">Font Size</p>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           {['small', 'medium', 'large'].map(size => (
             <button
               key={size}
@@ -172,7 +161,7 @@ const AppearanceTab = ({ settings, onUpdate }) => {
 
       <div className="p-4 bg-white/50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700">
         <p className="font-medium text-gray-800 dark:text-white mb-3">Accent Color</p>
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           {['#4F46E5', '#EC4899', '#10B981', '#F59E0B', '#3B82F6', '#8B5CF6'].map(color => (
             <button
               key={color}
@@ -190,7 +179,6 @@ const AppearanceTab = ({ settings, onUpdate }) => {
   );
 };
 
-// Notifications Tab – unchanged
 const NotificationsTab = ({ settings, onUpdate }) => {
   const [notifs, setNotifs] = useState(settings.notifications || {
     email: true,
@@ -210,14 +198,14 @@ const NotificationsTab = ({ settings, onUpdate }) => {
   return (
     <div className="space-y-4">
       {Object.entries(notifs).map(([key, value]) => (
-        <div key={key} className="flex items-center justify-between p-4 bg-white/50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700">
+        <div key={key} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-white/50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700 gap-3">
           <div>
             <p className="font-medium text-gray-800 dark:text-white capitalize">{key}</p>
             <p className="text-xs text-gray-500">Receive {key} notifications</p>
           </div>
           <button
             onClick={() => toggle(key)}
-            className={`relative w-12 h-6 rounded-full transition-colors ${value ? 'bg-purple-600' : 'bg-gray-300 dark:bg-gray-600'}`}
+            className={`relative w-12 h-6 rounded-full transition-colors flex-shrink-0 ${value ? 'bg-purple-600' : 'bg-gray-300 dark:bg-gray-600'}`}
           >
             <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${value ? 'translate-x-6' : 'translate-x-0.5'}`} />
           </button>
@@ -227,7 +215,6 @@ const NotificationsTab = ({ settings, onUpdate }) => {
   );
 };
 
-// Security Tab – unchanged
 const SecurityTab = ({ settings, onUpdate }) => {
   const [twoFactor, setTwoFactor] = useState(settings.twoFactor || false);
   const [showPassword, setShowPassword] = useState(false);
@@ -252,7 +239,7 @@ const SecurityTab = ({ settings, onUpdate }) => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between p-4 bg-white/50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-white/50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700 gap-3">
         <div className="flex items-center gap-3">
           <Fingerprint size={20} className="text-purple-500" />
           <div>
@@ -262,7 +249,7 @@ const SecurityTab = ({ settings, onUpdate }) => {
         </div>
         <button
           onClick={handleTwoFactor}
-          className={`relative w-12 h-6 rounded-full transition-colors ${twoFactor ? 'bg-purple-600' : 'bg-gray-300 dark:bg-gray-600'}`}
+          className={`relative w-12 h-6 rounded-full transition-colors flex-shrink-0 ${twoFactor ? 'bg-purple-600' : 'bg-gray-300 dark:bg-gray-600'}`}
         >
           <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${twoFactor ? 'translate-x-6' : 'translate-x-0.5'}`} />
         </button>
@@ -278,7 +265,7 @@ const SecurityTab = ({ settings, onUpdate }) => {
                 type={showPassword ? 'text' : 'password'}
                 value={passwordForm.current}
                 onChange={e => setPasswordForm({...passwordForm, current: e.target.value})}
-                className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 pr-10"
+                className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 pr-10 text-sm"
                 required
               />
               <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
@@ -292,7 +279,7 @@ const SecurityTab = ({ settings, onUpdate }) => {
               type="password"
               value={passwordForm.new}
               onChange={e => setPasswordForm({...passwordForm, new: e.target.value})}
-              className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70"
+              className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 text-sm"
               required
             />
           </div>
@@ -302,16 +289,16 @@ const SecurityTab = ({ settings, onUpdate }) => {
               type="password"
               value={passwordForm.confirm}
               onChange={e => setPasswordForm({...passwordForm, confirm: e.target.value})}
-              className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70"
+              className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 text-sm"
               required
             />
           </div>
-          <button type="submit" className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition">Update Password</button>
+          <button type="submit" className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition text-sm">Update Password</button>
         </form>
       </div>
 
       <div className="p-4 bg-white/50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <p className="font-medium text-gray-800 dark:text-white">Sessions</p>
             <p className="text-xs text-gray-500">Manage active sessions</p>
@@ -327,7 +314,6 @@ const SecurityTab = ({ settings, onUpdate }) => {
   );
 };
 
-// Preferences Tab – unchanged
 const PreferencesTab = ({ settings, onUpdate }) => {
   const [prefs, setPrefs] = useState(settings.preferences || {
     language: 'English',
@@ -349,7 +335,7 @@ const PreferencesTab = ({ settings, onUpdate }) => {
         <select
           value={prefs.language}
           onChange={e => handleChange('language', e.target.value)}
-          className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none"
+          className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none text-sm"
         >
           <option>English</option><option>Spanish</option><option>French</option><option>German</option><option>Chinese</option>
         </select>
@@ -360,7 +346,7 @@ const PreferencesTab = ({ settings, onUpdate }) => {
         <select
           value={prefs.timezone}
           onChange={e => handleChange('timezone', e.target.value)}
-          className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none"
+          className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none text-sm"
         >
           <option>UTC-5</option><option>UTC-4</option><option>UTC+0</option><option>UTC+1</option><option>UTC+5:30</option>
         </select>
@@ -371,7 +357,7 @@ const PreferencesTab = ({ settings, onUpdate }) => {
         <select
           value={prefs.dateFormat}
           onChange={e => handleChange('dateFormat', e.target.value)}
-          className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none"
+          className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none text-sm"
         >
           <option>MM/DD/YYYY</option><option>DD/MM/YYYY</option><option>YYYY-MM-DD</option>
         </select>
@@ -380,11 +366,9 @@ const PreferencesTab = ({ settings, onUpdate }) => {
   );
 };
 
-// ---------- MAIN COMPONENT ----------
 const Settings = () => {
   const [activeTab, setActiveTab] = useState('profile');
 
-  // Admin Profile Data (same as sidebar)
   const [settings, setSettings] = useState({
     name: 'Muntazir Mehdi',
     email: 'muntazir@etech.com',
@@ -414,41 +398,30 @@ const Settings = () => {
 
   const renderTabContent = () => {
     switch(activeTab) {
-      case 'profile':
-        return <ProfileTab user={settings} onUpdate={updateSettings} />;
-      case 'appearance':
-        return <AppearanceTab settings={settings} onUpdate={updateSettings} />;
-      case 'notifications':
-        return <NotificationsTab settings={settings} onUpdate={updateSettings} />;
-      case 'security':
-        return <SecurityTab settings={settings} onUpdate={updateSettings} />;
-      case 'preferences':
-        return <PreferencesTab settings={settings} onUpdate={updateSettings} />;
-      default:
-        return null;
+      case 'profile': return <ProfileTab user={settings} onUpdate={updateSettings} />;
+      case 'appearance': return <AppearanceTab settings={settings} onUpdate={updateSettings} />;
+      case 'notifications': return <NotificationsTab settings={settings} onUpdate={updateSettings} />;
+      case 'security': return <SecurityTab settings={settings} onUpdate={updateSettings} />;
+      case 'preferences': return <PreferencesTab settings={settings} onUpdate={updateSettings} />;
+      default: return null;
     }
   };
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      {/* Header */}
-      <div className="flex flex-wrap justify-between items-center gap-4">
+    <div className="space-y-4 sm:space-y-6 animate-fade-in p-4 sm:p-0">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-4xl font-black bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">⚙️ Settings</h1>
-          <p className="text-gray-500 dark:text-gray-400">Manage your account preferences</p>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-black bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">⚙️ Settings</h1>
+          <p className="text-sm md:text-base text-gray-500 dark:text-gray-400">Manage your account preferences</p>
         </div>
-        <div className="flex gap-2">
-          <button onClick={() => { toast.success('Settings saved'); }} className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-xl shadow transition flex items-center gap-2">
-            <Save size={18} /> Save All
-          </button>
-        </div>
+        <button onClick={() => { toast.success('Settings saved'); }} className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-xl shadow transition flex items-center gap-2 justify-center w-full sm:w-auto">
+          <Save size={18} /> Save All
+        </button>
       </div>
 
-      {/* Main Layout */}
       <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 overflow-hidden">
         <div className="flex flex-col md:flex-row">
-          {/* Sidebar Tabs */}
-          <div className="md:w-56 p-4 border-b md:border-b-0 md:border-r border-gray-200/50 dark:border-gray-700/50">
+          <div className="md:w-56 p-3 sm:p-4 border-b md:border-b-0 md:border-r border-gray-200/50 dark:border-gray-700/50">
             <div className="space-y-1">
               {tabs.map(tab => (
                 <button
@@ -461,7 +434,7 @@ const Settings = () => {
                   }`}
                 >
                   {tab.icon}
-                  {tab.label}
+                  <span className="hidden sm:inline">{tab.label}</span>
                 </button>
               ))}
             </div>
@@ -472,8 +445,7 @@ const Settings = () => {
             </div>
           </div>
 
-          {/* Content */}
-          <div className="flex-1 p-6 max-h-[calc(100vh-300px)] overflow-y-auto">
+          <div className="flex-1 p-4 sm:p-6 max-h-[calc(100vh-300px)] overflow-y-auto">
             {renderTabContent()}
           </div>
         </div>

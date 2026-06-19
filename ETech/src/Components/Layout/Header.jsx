@@ -7,7 +7,8 @@ import {
   Search,
   Settings,
   Sun,
-  Moon
+  Moon,
+  LogOut
 } from 'lucide-react'
 import React from 'react'
 import Profile from '../../Image/Profile.jpg'
@@ -93,6 +94,8 @@ function Header({
             onClick={onLogout}
             className="hidden lg:flex items-center space-x-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-blue-500  text-white shadow-lg hover:shadow-xl hover:scale-105 transition"
           >
+            <LogOut className="w-4 h-4" />
+
             Logout
           </button>
 

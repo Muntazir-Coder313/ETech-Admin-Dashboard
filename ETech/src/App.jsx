@@ -22,8 +22,9 @@ import LoginPage from './Components/LoginPage'; // 👈 we'll create this file
 
 function App() {
   // ----- Login state (persisted) -----
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+const [isLoggedIn, setIsLoggedIn] = useState(() => {
+  return sessionStorage.getItem('isLoggedIn') === 'true';
+});
   const [sideBarCollapsed, setSideBarCollapsed] = useState(false);
   const [currentPage, setCurrentPage] = useState('dashboard');
 
