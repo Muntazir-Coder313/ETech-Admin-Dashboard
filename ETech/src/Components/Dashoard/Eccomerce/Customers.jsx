@@ -13,11 +13,11 @@ const getAvatar = (name) => {
   return `https://randomuser.me/api/portraits/${gender}/${id}.jpg`;
 };
 
-// Customer Modal
+// Customer Modal – Fully Responsive
 const CustomerModal = ({ customer, onClose, onSave, title }) => {
   const [form, setForm] = useState(customer || { name: '', email: '', phone: '', status: 'Active', totalSpent: 0 });
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4">
       <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 w-full max-w-md shadow-2xl max-h-[90vh] overflow-y-auto">
         <h3 className="text-lg sm:text-xl font-bold mb-4">{title}</h3>
         <input type="text" placeholder="Full name" value={form.name} onChange={e => setForm({...form, name: e.target.value})} className="w-full p-2 border rounded-lg mb-3 text-sm sm:text-base" />
@@ -26,7 +26,7 @@ const CustomerModal = ({ customer, onClose, onSave, title }) => {
         <select value={form.status} onChange={e => setForm({...form, status: e.target.value})} className="w-full p-2 border rounded-lg mb-3 text-sm sm:text-base">
           <option>Active</option><option>Inactive</option>
         </select>
-        <div className="flex justify-end gap-2">
+        <div className="flex flex-col sm:flex-row justify-end gap-2">
           <button onClick={() => onSave(form)} className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm sm:text-base">Save</button>
           <button onClick={onClose} className="bg-gray-300 dark:bg-gray-600 px-4 py-2 rounded-lg text-sm sm:text-base">Cancel</button>
         </div>
@@ -35,16 +35,16 @@ const CustomerModal = ({ customer, onClose, onSave, title }) => {
   );
 };
 
-// Summary Card (responsive)
+// Summary Card – Fully Responsive
 const SummaryCard = ({ title, value, icon, color, change }) => (
-  <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-2xl p-4 sm:p-5 shadow-lg border hover:shadow-xl transition">
+  <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-2xl p-3 sm:p-4 md:p-5 shadow-lg border hover:shadow-xl transition">
     <div className="flex justify-between items-start">
       <div>
-        <p className="text-gray-500 text-xs uppercase">{title}</p>
-        <p className="text-xl sm:text-2xl font-bold mt-1">{value}</p>
-        {change && <p className="text-xs mt-1 text-green-500">+{change}% growth</p>}
+        <p className="text-gray-500 text-[10px] sm:text-xs uppercase">{title}</p>
+        <p className="text-lg sm:text-xl md:text-2xl font-bold mt-1">{value}</p>
+        {change && <p className="text-[10px] sm:text-xs mt-1 text-green-500">+{change}% growth</p>}
       </div>
-      <div className={`p-2 sm:p-3 rounded-xl bg-${color}-100 dark:bg-${color}-900/30 text-${color}-600`}>{icon}</div>
+      <div className={`p-2 sm:p-3 rounded-xl bg-${color}-100 dark:bg-${color}-900/30 text-${color}-600 flex-shrink-0`}>{icon}</div>
     </div>
   </div>
 );
@@ -73,7 +73,7 @@ const Customers = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingCustomer, setEditingCustomer] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
-  const itemsPerPage = 8;
+  const itemsPerPage = 5;
 
   const fetchCustomers = useCallback(async (showToast = false) => {
     setLoading(true);
@@ -172,7 +172,7 @@ const Customers = () => {
   if (loading) return <div className="flex justify-center items-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div></div>;
 
   return (
-    <div className="space-y-4 sm:space-y-6 animate-fade-in p-4 sm:p-0">
+    <div className="space-y-4 sm:space-y-6 animate-fade-in p-3 sm:p-4 md:p-0">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
@@ -180,14 +180,14 @@ const Customers = () => {
           <p className="text-sm md:text-base text-gray-500">Manage customer base</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <button onClick={exportCSV} className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl shadow flex items-center gap-2 text-sm sm:text-base"><Download size={18} /> Export</button>
-          <button onClick={() => { setEditingCustomer(null); setModalOpen(true); }} className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl shadow flex items-center gap-2 text-sm sm:text-base"><UserPlus size={18} /> Add Customer</button>
+          <button onClick={exportCSV} className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl shadow flex items-center gap-2 text-sm"><Download size={18} /> Export</button>
+          <button onClick={() => { setEditingCustomer(null); setModalOpen(true); }} className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl shadow flex items-center gap-2 text-sm"><UserPlus size={18} /> Add Customer</button>
           <button onClick={() => { setRefreshing(true); fetchCustomers(true); }} disabled={refreshing} className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1.5 sm:py-2 rounded-xl shadow"><RefreshCw size={18} className={refreshing ? 'animate-spin' : ''} /></button>
         </div>
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-5">
         <SummaryCard title="Total Customers" value={totalCustomers} icon={<Users size={20} />} color="blue" change={12} />
         <SummaryCard title="Active" value={activeCount} icon={<UserCheck size={20} />} color="green" change={8} />
         <SummaryCard title="LTV" value={`$${totalRevenue.toLocaleString()}`} icon={<DollarSign size={20} />} color="purple" change={15} />
@@ -208,19 +208,19 @@ const Customers = () => {
       </div>
 
       {/* Customers Table */}
-      <div className="bg-white/70 dark:bg-gray-900/70 rounded-2xl shadow-lg overflow-hidden border">
-        <div className="overflow-x-auto -mx-4 sm:mx-0">
+      <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+        <div className="overflow-x-auto -mx-3 sm:mx-0">
           <div className="min-w-full inline-block align-middle">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
               <thead className="bg-gray-100/50 dark:bg-gray-800/50">
                 <tr>
-                  <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold cursor-pointer hover:text-blue-500" onClick={() => handleSort('name')}>Customer</th>
-                  <th className="hidden sm:table-cell px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold">Email</th>
-                  <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold cursor-pointer hover:text-blue-500" onClick={() => handleSort('totalSpent')}>Total</th>
-                  <th className="hidden sm:table-cell px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold">Tier</th>
-                  <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold cursor-pointer hover:text-blue-500" onClick={() => handleSort('status')}>Status</th>
-                  <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold"></th>
-                  <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold"></th>
+                  <th className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold cursor-pointer hover:text-blue-500 whitespace-nowrap" onClick={() => handleSort('name')}>Customer</th>
+                  <th className="hidden sm:table-cell px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold">Email</th>
+                  <th className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold cursor-pointer hover:text-blue-500 whitespace-nowrap" onClick={() => handleSort('totalSpent')}>Total</th>
+                  <th className="hidden sm:table-cell px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold">Tier</th>
+                  <th className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold cursor-pointer hover:text-blue-500 whitespace-nowrap" onClick={() => handleSort('status')}>Status</th>
+                  <th className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold"></th>
+                  <th className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold"></th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -230,30 +230,39 @@ const Customers = () => {
                   return (
                     <React.Fragment key={customer.id}>
                       <tr className="hover:bg-gray-100/50 dark:hover:bg-gray-800/50 transition group">
-                        <td className="px-3 sm:px-4 py-3 sm:py-4">
+                        <td className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4">
                           <div className="flex items-center gap-2 sm:gap-3">
-                            <img src={getAvatar(customer.name)} alt={customer.name} className="w-7 h-7 sm:w-8 sm:h-8 rounded-full ring-1 ring-gray-300" />
-                            <span className="font-medium text-sm sm:text-base">{customer.name}</span>
+                            <img src={getAvatar(customer.name)} alt={customer.name} className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 rounded-full ring-1 ring-gray-300 flex-shrink-0" />
+                            <span className="font-medium text-xs sm:text-sm truncate max-w-[60px] sm:max-w-none">{customer.name}</span>
                           </div>
                         </td>
-                        <td className="hidden sm:table-cell px-3 sm:px-4 py-3 sm:py-4 text-sm">{customer.email}</td>
-                        <td className="px-3 sm:px-4 py-3 sm:py-4 font-semibold text-sm sm:text-base">${customer.totalSpent}</td>
-                        <td className="hidden sm:table-cell px-3 sm:px-4 py-3 sm:py-4"><span className={`px-2 py-1 rounded-full text-xs font-medium ${tierColor}`}>{tier}</span></td>
-                        <td className="px-3 sm:px-4 py-3 sm:py-4"><span className={`px-2 py-1 rounded-full text-xs ${customer.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>{customer.status}</span></td>
-                        <td className="px-3 sm:px-4 py-3 sm:py-4"><button onClick={() => toggleExpand(customer.id)} className="text-gray-500 hover:text-blue-500">{expandedRow === customer.id ? <ChevronUp size={18} /> : <ChevronDown size={18} />}</button></td>
-                        <td className="px-3 sm:px-4 py-3 sm:py-4 flex gap-1 sm:gap-2">
-                          <button onClick={() => { setEditingCustomer(customer); setModalOpen(true); }} className="text-blue-500"><Edit2 size={16} /></button>
-                          <button onClick={() => handleDelete(customer.id)} className="text-red-500"><Trash2 size={16} /></button>
-                          <button onClick={() => setSelectedCustomer(customer)} className="text-gray-500"><Eye size={16} /></button>
+                        <td className="hidden sm:table-cell px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-sm truncate max-w-[100px]">{customer.email}</td>
+                        <td className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 font-semibold text-xs sm:text-sm whitespace-nowrap">${customer.totalSpent}</td>
+                        <td className="hidden sm:table-cell px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4"><span className={`px-2 py-1 rounded-full text-[8px] sm:text-[10px] md:text-xs font-medium ${tierColor}`}>{tier}</span></td>
+                        <td className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 whitespace-nowrap">
+                          <span className={`px-2 py-1 rounded-full text-[8px] sm:text-[10px] md:text-xs ${
+                            customer.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                          }`}>{customer.status}</span>
+                        </td>
+                        <td className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4">
+                          <button onClick={() => toggleExpand(customer.id)} className="text-gray-500 hover:text-blue-500">
+                            {expandedRow === customer.id ? <ChevronUp size={16} className="sm:size-18" /> : <ChevronDown size={16} className="sm:size-18" />}
+                          </button>
+                        </td>
+                        <td className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 flex gap-1 sm:gap-2">
+                          <button onClick={() => { setEditingCustomer(customer); setModalOpen(true); }} className="text-blue-500"><Edit2 size={14} className="sm:size-16" /></button>
+                          <button onClick={() => handleDelete(customer.id)} className="text-red-500"><Trash2 size={14} className="sm:size-16" /></button>
+                          <button onClick={() => setSelectedCustomer(customer)} className="text-gray-500"><Eye size={14} className="sm:size-16" /></button>
                         </td>
                       </tr>
+                      {/* Expandable details row */}
                       {expandedRow === customer.id && (
                         <tr className="bg-gray-50/50 dark:bg-gray-800/30">
-                          <td colSpan="7" className="px-3 sm:px-4 py-3 text-sm">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3">
-                              <div><span className="font-semibold">📧 Email:</span> {customer.email}</div>
+                          <td colSpan="7" className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-sm">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+                              <div><span className="font-semibold">📧 Email:</span> <span className="break-words">{customer.email}</span></div>
                               <div><span className="font-semibold">📞 Phone:</span> {customer.phone}</div>
-                              <div><span className="font-semibold">📍 Address:</span> {customer.address}</div>
+                              <div><span className="font-semibold">📍 Address:</span> <span className="break-words">{customer.address}</span></div>
                               <div><span className="font-semibold">📅 Joined:</span> {customer.joined}</div>
                               <div><span className="font-semibold">🛒 Last Order:</span> {customer.lastOrder}</div>
                               <div><span className="font-semibold">💎 Tier:</span> {tier}</div>
@@ -264,36 +273,40 @@ const Customers = () => {
                     </React.Fragment>
                   );
                 })}
-                {paginated.length === 0 && <tr><td colSpan="7" className="text-center py-8 text-gray-400">No customers match</td></tr>}
+                {paginated.length === 0 && <tr><td colSpan="7" className="text-center py-8 text-gray-400 text-sm">No customers match</td></tr>}
               </tbody>
             </table>
           </div>
         </div>
+        {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex justify-between items-center p-3 sm:p-4 border-t">
-            <button disabled={currentPage===1} onClick={() => setCurrentPage(p => p-1)} className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50"><ChevronLeft size={16} /></button>
-            <span className="text-sm">Page {currentPage} of {totalPages}</span>
-            <button disabled={currentPage===totalPages} onClick={() => setCurrentPage(p => p+1)} className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50"><ChevronRight size={16} /></button>
+          <div className="flex justify-between items-center p-2 sm:p-3 md:p-4 border-t border-gray-200 dark:border-gray-700">
+            <button disabled={currentPage===1} onClick={() => setCurrentPage(p => p-1)} className="px-2 sm:px-3 py-1 rounded bg-gray-200 disabled:opacity-50 text-xs sm:text-sm"><ChevronLeft size={14} className="sm:size-16" /></button>
+            <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Page {currentPage} of {totalPages}</span>
+            <button disabled={currentPage===totalPages} onClick={() => setCurrentPage(p => p+1)} className="px-2 sm:px-3 py-1 rounded bg-gray-200 disabled:opacity-50 text-xs sm:text-sm"><ChevronRight size={14} className="sm:size-16" /></button>
           </div>
         )}
       </div>
 
+      {/* Add/Edit Modal */}
       {modalOpen && <CustomerModal customer={editingCustomer} onClose={() => { setModalOpen(false); setEditingCustomer(null); }} onSave={handleSave} title={editingCustomer ? 'Edit Customer' : 'Add Customer'} />}
+
+      {/* View Details Modal */}
       {selectedCustomer && !modalOpen && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4">
           <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-2xl w-full max-w-md shadow-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex items-center gap-3 mb-4">
-              <img src={getAvatar(selectedCustomer.name)} className="w-10 h-10 sm:w-12 sm:h-12 rounded-full" alt="" />
+              <img src={getAvatar(selectedCustomer.name)} className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex-shrink-0" alt="" />
               <h3 className="text-lg sm:text-xl font-bold">{selectedCustomer.name}</h3>
             </div>
             <div className="space-y-2 text-sm">
-              <div className="flex flex-col sm:flex-row justify-between"><span>Email:</span><span className="font-medium">{selectedCustomer.email}</span></div>
+              <div className="flex flex-col sm:flex-row justify-between"><span>Email:</span><span className="font-medium break-words">{selectedCustomer.email}</span></div>
               <div className="flex flex-col sm:flex-row justify-between"><span>Phone:</span><span className="font-medium">{selectedCustomer.phone}</span></div>
-              <div className="flex flex-col sm:flex-row justify-between"><span>Status:</span><span className={`px-2 py-0.5 rounded-full text-xs ${selectedCustomer.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>{selectedCustomer.status}</span></div>
+              <div className="flex flex-col sm:flex-row justify-between"><span>Status:</span><span className={`px-2 py-0.5 rounded-full text-[10px] sm:text-xs ${selectedCustomer.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>{selectedCustomer.status}</span></div>
               <div className="flex flex-col sm:flex-row justify-between"><span>Total Spent:</span><span className="font-bold">${selectedCustomer.totalSpent}</span></div>
-              <div className="flex flex-col sm:flex-row justify-between"><span>Tier:</span><span className={`px-2 py-0.5 rounded-full text-xs ${getTierColor(getTier(selectedCustomer.totalSpent))}`}>{getTier(selectedCustomer.totalSpent)}</span></div>
+              <div className="flex flex-col sm:flex-row justify-between"><span>Tier:</span><span className={`px-2 py-0.5 rounded-full text-[10px] sm:text-xs ${getTierColor(getTier(selectedCustomer.totalSpent))}`}>{getTier(selectedCustomer.totalSpent)}</span></div>
               <div className="flex flex-col sm:flex-row justify-between"><span>Joined:</span><span>{selectedCustomer.joined}</span></div>
-              <div className="flex flex-col sm:flex-row justify-between"><span>Address:</span><span>{selectedCustomer.address}</span></div>
+              <div className="flex flex-col sm:flex-row justify-between"><span>Address:</span><span className="break-words">{selectedCustomer.address}</span></div>
             </div>
             <button onClick={() => setSelectedCustomer(null)} className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg">Close</button>
           </div>

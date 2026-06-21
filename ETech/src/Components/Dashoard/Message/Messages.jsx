@@ -30,6 +30,7 @@ const formatMessageDate = (dateString) => {
   return date.toLocaleDateString([], { month: 'long', day: 'numeric', year: 'numeric' });
 };
 
+// Generate random past dates
 const randomDate = (daysAgo) => {
   const date = new Date();
   date.setDate(date.getDate() - Math.floor(Math.random() * daysAgo));
@@ -37,6 +38,7 @@ const randomDate = (daysAgo) => {
   return date.toISOString();
 };
 
+// Message templates for random conversations
 const messageTemplates = [
   { text: 'Hey! How are you doing?', sender: 'them' },
   { text: 'I\'m good, thanks for asking! How about you?', sender: 'you' },
@@ -59,16 +61,9 @@ const messageTemplates = [
   { text: 'Yes, I already put it in my calendar.', sender: 'you' },
   { text: 'Great! See you there.', sender: 'them' },
   { text: 'Looking forward to it!', sender: 'you' },
-  { text: 'I have a question about the design.', sender: 'them' },
-  { text: 'What would you like to know?', sender: 'you' },
-  { text: 'Can we make it more modern?', sender: 'them' },
-  { text: 'Absolutely! I\'ll work on a new version.', sender: 'you' },
-  { text: 'Perfect! Let me know when it\'s ready.', sender: 'them' },
-  { text: 'Will do. It should be done by Friday.', sender: 'you' },
-  { text: 'Thanks for the update!', sender: 'them' },
-  { text: 'You\'re welcome!', sender: 'you' },
 ];
 
+// Generate conversation messages
 const generateMessages = (num, senderName) => {
   const messages = [];
   for (let i = 0; i < num; i++) {
@@ -86,6 +81,7 @@ const generateMessages = (num, senderName) => {
   return messages;
 };
 
+// Generate 30+ people
 const generatePeople = () => {
   const names = [
     'Alice Johnson', 'Bob Smith', 'Carol Davis', 'David Wilson', 'Emma Brown',
@@ -116,10 +112,12 @@ const generatePeople = () => {
   return conversations;
 };
 
+// Helper: get other participant
 const getOtherParticipant = (conversation, currentUser = 'You') => {
   return conversation.participants.find(p => p !== currentUser);
 };
 
+// Conversation List Item – Responsive
 const ConversationItem = ({ conversation, currentUser, isActive, onClick }) => {
   const other = getOtherParticipant(conversation, currentUser);
   const avatar = getAvatar(other);
@@ -132,25 +130,26 @@ const ConversationItem = ({ conversation, currentUser, isActive, onClick }) => {
       <img src={avatar} alt={other} className="w-10 h-10 sm:w-12 sm:h-12 rounded-full ring-1 ring-gray-300 dark:ring-gray-600 object-cover flex-shrink-0" />
       <div className="flex-1 min-w-0">
         <div className="flex justify-between items-start">
-          <span className="font-medium text-gray-800 dark:text-white truncate text-sm sm:text-base">{other}</span>
+          <span className="font-medium text-gray-800 dark:text-white truncate text-xs sm:text-sm">{other}</span>
           <span className="text-[10px] sm:text-xs text-gray-400 whitespace-nowrap ml-2">{formatTime(conversation.timestamp)}</span>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">{conversation.lastMessage}</span>
-          {unread > 0 && <span className="bg-blue-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center ml-2 flex-shrink-0">{unread}</span>}
+          {unread > 0 && <span className="bg-blue-600 text-white text-[10px] sm:text-xs font-bold rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center ml-2 flex-shrink-0">{unread}</span>}
         </div>
       </div>
     </div>
   );
 };
 
+// Message Bubble – Responsive
 const MessageBubble = ({ message, isOwn }) => {
   return (
     <div className={`flex ${isOwn ? 'justify-end' : 'justify-start'} mb-2`}>
       {!isOwn && (
         <img src={getAvatar(message.sender)} alt={message.sender} className="w-6 h-6 sm:w-8 sm:h-8 rounded-full mr-1 sm:mr-2 self-end object-cover" />
       )}
-      <div className={`max-w-[75%] sm:max-w-[70%] px-3 sm:px-4 py-1.5 sm:py-2 rounded-2xl ${isOwn ? 'bg-blue-600 text-white rounded-br-none' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-bl-none'}`}>
+      <div className={`max-w-[80%] sm:max-w-[70%] px-3 sm:px-4 py-1.5 sm:py-2 rounded-2xl ${isOwn ? 'bg-blue-600 text-white rounded-br-none' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-bl-none'}`}>
         <p className="text-sm sm:text-base break-words">{message.text}</p>
         <span className={`text-[8px] sm:text-[10px] ${isOwn ? 'text-blue-200' : 'text-gray-400'} block text-right mt-1`}>
           {formatTime(message.timestamp)}
@@ -163,6 +162,7 @@ const MessageBubble = ({ message, isOwn }) => {
   );
 };
 
+// Main Messages Component
 const Messages = () => {
   const [conversations, setConversations] = useState(generatePeople());
   const [selectedId, setSelectedId] = useState(conversations[0]?.id || null);
@@ -260,7 +260,8 @@ const Messages = () => {
   if (loading) return <div className="flex justify-center items-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div></div>;
 
   return (
-    <div className="h-[calc(100vh-12rem)] min-h-[400px] sm:min-h-[500px] space-y-4 animate-fade-in p-4 sm:p-0">
+    <div className="h-[calc(100vh-12rem)] min-h-[400px] sm:min-h-[500px] space-y-4 animate-fade-in p-3 sm:p-4 md:p-0">
+      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-black bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent">💬 Messages</h1>
@@ -269,7 +270,9 @@ const Messages = () => {
         <button onClick={() => { setRefreshing(true); fetchMessages(true); }} disabled={refreshing} className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1.5 sm:py-2 rounded-xl shadow transition w-full sm:w-auto"><RefreshCw size={18} className={refreshing ? 'animate-spin' : ''} /> Refresh</button>
       </div>
 
+      {/* Chat Container */}
       <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden flex flex-col sm:flex-row h-full min-h-[350px] sm:min-h-[400px]">
+        {/* Left Panel: Conversations List */}
         <div className="w-full sm:w-72 md:w-80 lg:w-96 border-r border-gray-200 dark:border-gray-700 flex flex-col max-h-[200px] sm:max-h-full">
           <div className="p-2 sm:p-3 border-b border-gray-200 dark:border-gray-700">
             <div className="relative">
@@ -294,13 +297,15 @@ const Messages = () => {
               />
             ))}
             {filteredConversations.length === 0 && (
-              <div className="text-center py-8 text-gray-400">No conversations found</div>
+              <div className="text-center py-8 text-gray-400 text-sm">No conversations found</div>
             )}
           </div>
         </div>
 
+        {/* Right Panel: Chat Area */}
         {selectedConversation ? (
           <div className="flex-1 flex flex-col min-h-[250px] sm:min-h-0">
+            {/* Chat Header */}
             <div className="flex flex-wrap justify-between items-center p-2 sm:p-3 border-b border-gray-200 dark:border-gray-700 bg-white/30 dark:bg-gray-800/30">
               <div className="flex items-center gap-2 sm:gap-3">
                 <img src={getAvatar(otherParticipant)} alt={otherParticipant} className="w-8 h-8 sm:w-10 sm:h-10 rounded-full ring-2 ring-blue-500 object-cover" />
@@ -317,6 +322,7 @@ const Messages = () => {
               </div>
             </div>
 
+            {/* Messages */}
             <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-1 bg-gray-50/30 dark:bg-gray-900/20">
               {selectedConversation.messages.map((msg, index) => {
                 const isOwn = msg.sender === currentUser;
@@ -335,6 +341,7 @@ const Messages = () => {
               <div ref={messagesEndRef} />
             </div>
 
+            {/* Input Area */}
             <div className="p-2 sm:p-3 border-t border-gray-200 dark:border-gray-700 bg-white/30 dark:bg-gray-800/30">
               <div className="flex items-center gap-1 sm:gap-2">
                 <button className="p-1.5 sm:p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"><Paperclip size={16} className="text-gray-500" /></button>

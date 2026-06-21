@@ -2,12 +2,12 @@ import React, { useState, useMemo } from 'react';
 import toast from 'react-hot-toast';
 import { 
   Search, Plus, RefreshCw, ChevronLeft, ChevronRight,
-  FileText, Folder, FolderOpen, Clock, Calendar, 
+  FileText, Clock, Calendar, 
   Download, Eye, Trash2, Edit2, Share2, Send,
-  Star, Bookmark, Settings, Filter, AlertCircle,
-  CheckCircle, Clock as ClockIcon, Users, TrendingUp,
-  BarChart3, PieChart, LineChart, Sparkles, Zap,
-  Grid, List, Home, Inbox, Archive, HardDrive
+  Star, Sparkles, Zap,
+  Grid, List, Home, Inbox, Archive, HardDrive,
+  BarChart3, PieChart, LineChart, Users, TrendingUp,CheckCircle,
+  X
 } from 'lucide-react';
 
 const mockReports = [
@@ -39,6 +39,7 @@ const templates = [
   { id: 4, name: 'Customer Insights', description: 'Behavior & retention', icon: <Users size={16} /> },
 ];
 
+// Folder Sidebar – Responsive
 const FolderSidebar = ({ selected, onSelect, collapsed, onToggleCollapse }) => {
   return (
     <div className={`${collapsed ? 'w-16' : 'w-56'} bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-3 transition-all duration-300 overflow-hidden h-full flex-shrink-0`}>
@@ -89,6 +90,7 @@ const FolderSidebar = ({ selected, onSelect, collapsed, onToggleCollapse }) => {
   );
 };
 
+// Report Card – Responsive
 const ReportCard = ({ report, onStar, onDelete, onView, onDownload }) => {
   const getStatusColor = (status) => {
     switch(status) {
@@ -103,7 +105,7 @@ const ReportCard = ({ report, onStar, onDelete, onView, onDownload }) => {
   return (
     <div className="group bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm rounded-2xl p-4 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50 hover:scale-[1.02]">
       <div className="flex justify-between items-start mb-2">
-        <div className={`px-2 py-0.5 rounded-full text-xs font-medium ${getStatusColor(report.status)}`}>
+        <div className={`px-2 py-0.5 rounded-full text-[8px] sm:text-[10px] md:text-xs font-medium ${getStatusColor(report.status)}`}>
           {report.status}
         </div>
         <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition">
@@ -120,18 +122,18 @@ const ReportCard = ({ report, onStar, onDelete, onView, onDownload }) => {
           <FileText size={18} className="text-white" />
         </div>
         <div className="flex-1 min-w-0">
-          <h4 className="font-bold text-gray-800 dark:text-white text-sm truncate">{report.name}</h4>
-          <p className="text-xs text-gray-500">{report.author} • {report.date}</p>
+          <h4 className="font-bold text-gray-800 dark:text-white text-xs sm:text-sm truncate">{report.name}</h4>
+          <p className="text-[10px] sm:text-xs text-gray-500">{report.author} • {report.date}</p>
         </div>
       </div>
       <div className="flex flex-wrap gap-1 mt-2">
-        <span className="text-[10px] px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600">{report.category}</span>
-        <span className="text-[10px] px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600">{report.format}</span>
-        <span className="text-[10px] px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600">{report.pages}p</span>
+        <span className="text-[8px] sm:text-[10px] px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600">{report.category}</span>
+        <span className="text-[8px] sm:text-[10px] px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600">{report.format}</span>
+        <span className="text-[8px] sm:text-[10px] px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600">{report.pages}p</span>
       </div>
       <div className="flex justify-between items-center mt-2 pt-2 border-t border-gray-200/50 dark:border-gray-700/50">
-        <span className="text-[10px] text-gray-400">{report.size}</span>
-        <div className="flex gap-2 text-[10px] text-gray-400">
+        <span className="text-[8px] sm:text-[10px] text-gray-400">{report.size}</span>
+        <div className="flex gap-2 text-[8px] sm:text-[10px] text-gray-400">
           {report.shared && <Share2 size={12} className="text-blue-400" />}
           {report.scheduled && <Clock size={12} className="text-purple-400" />}
         </div>
@@ -140,6 +142,7 @@ const ReportCard = ({ report, onStar, onDelete, onView, onDownload }) => {
   );
 };
 
+// Generate Modal – Responsive
 const GenerateModal = ({ isOpen, onClose, onGenerate }) => {
   const [step, setStep] = useState(1);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
@@ -162,7 +165,7 @@ const GenerateModal = ({ isOpen, onClose, onGenerate }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in p-4">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in p-3 sm:p-4">
       <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 w-full max-w-[95vw] sm:max-w-[520px] max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-200 dark:border-gray-700">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg sm:text-xl font-bold flex items-center gap-2">
@@ -192,7 +195,7 @@ const GenerateModal = ({ isOpen, onClose, onGenerate }) => {
                 </button>
               ))}
             </div>
-            <button onClick={handleNext} disabled={!selectedTemplate} className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition disabled:opacity-50">Next</button>
+            <button onClick={handleNext} disabled={!selectedTemplate} className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition disabled:opacity-50 text-sm">Next</button>
           </div>
         ) : (
           <div className="space-y-3">
@@ -223,8 +226,8 @@ const GenerateModal = ({ isOpen, onClose, onGenerate }) => {
               className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none text-sm"
             />
             <div className="flex flex-col sm:flex-row gap-2">
-              <button onClick={handleBack} className="flex-1 bg-gray-200 dark:bg-gray-700 py-2 rounded-lg hover:bg-gray-300 transition">Back</button>
-              <button onClick={handleGenerate} className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2 rounded-lg hover:shadow-lg transition">Generate</button>
+              <button onClick={handleBack} className="flex-1 bg-gray-200 dark:bg-gray-700 py-2 rounded-lg hover:bg-gray-300 transition text-sm">Back</button>
+              <button onClick={handleGenerate} className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2 rounded-lg hover:shadow-lg transition text-sm">Generate</button>
             </div>
           </div>
         )}
@@ -233,16 +236,18 @@ const GenerateModal = ({ isOpen, onClose, onGenerate }) => {
   );
 };
 
+// Quick Stat – Responsive
 const QuickStat = ({ icon, label, value, color }) => (
   <div className="flex items-center gap-3 bg-white/50 dark:bg-gray-800/50 rounded-xl px-3 py-2 border border-gray-200/50 dark:border-gray-700/50">
     <div className={`p-1.5 rounded-lg bg-${color}-100 dark:bg-${color}-900/30 text-${color}-600`}>{icon}</div>
     <div>
       <p className="text-xs text-gray-400">{label}</p>
-      <p className="text-sm font-bold text-gray-800 dark:text-white">{value}</p>
+      <p className="text-xs sm:text-sm font-bold text-gray-800 dark:text-white">{value}</p>
     </div>
   </div>
 );
 
+// Main Reports Center Component
 const Reports = () => {
   const [reports, setReports] = useState(mockReports);
   const [selectedFolder, setSelectedFolder] = useState('all');
@@ -286,7 +291,6 @@ const Reports = () => {
   };
 
   const handleView = (report) => setSelectedReport(report);
-
   const handleDownload = (id) => toast.success(`Downloading report...`);
 
   const handleGenerate = (data) => {
@@ -318,7 +322,8 @@ const Reports = () => {
   };
 
   return (
-    <div className="space-y-4 sm:space-y-6 animate-fade-in p-4 sm:p-0">
+    <div className="space-y-4 sm:space-y-6 animate-fade-in p-3 sm:p-4 md:p-0">
+      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-black bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent">📄 Report Center</h1>
@@ -330,6 +335,7 @@ const Reports = () => {
         </div>
       </div>
 
+      {/* Quick Stats */}
       <div className="flex flex-wrap gap-2 sm:gap-3">
         <QuickStat icon={<FileText size={16} />} label="Total Reports" value={totalReports} color="blue" />
         <QuickStat icon={<CheckCircle size={16} />} label="Completed" value={completedReports} color="green" />
@@ -337,6 +343,7 @@ const Reports = () => {
         <QuickStat icon={<Share2 size={16} />} label="Shared" value={reports.filter(r => r.shared).length} color="teal" />
       </div>
 
+      {/* Main Layout */}
       <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 min-h-[400px] sm:h-[calc(100vh-380px)]">
         <FolderSidebar
           selected={selectedFolder}
@@ -345,7 +352,9 @@ const Reports = () => {
           onToggleCollapse={() => setFolderCollapsed(!folderCollapsed)}
         />
 
+        {/* Content Area */}
         <div className="flex-1 bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 overflow-hidden flex flex-col">
+          {/* Toolbar */}
           <div className="flex flex-wrap justify-between items-center gap-2 p-2 sm:p-3 border-b border-gray-200/50 dark:border-gray-700/50">
             <div className="flex gap-2 flex-1 min-w-[150px]">
               <div className="relative flex-1 max-w-full sm:max-w-sm">
@@ -365,6 +374,7 @@ const Reports = () => {
             </div>
           </div>
 
+          {/* Content */}
           <div className="flex-1 overflow-y-auto p-3 sm:p-4">
             {viewMode === 'grid' ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
@@ -378,18 +388,18 @@ const Reports = () => {
                     <thead className="bg-gray-50/50 dark:bg-gray-800/50">
                       <tr>
                         {['Name', 'Category', 'Date', 'Status', 'Format', ''].map((h, idx) => (
-                          <th key={idx} className="px-3 py-2 text-left text-xs font-semibold text-gray-500 uppercase whitespace-nowrap">{h}</th>
+                          <th key={idx} className="px-3 py-2 text-left text-[10px] sm:text-xs font-semibold text-gray-500 uppercase whitespace-nowrap">{h}</th>
                         ))}
                       </tr>
                     </thead>
                     <tbody>
                       {paginated.map(r => (
                         <tr key={r.id} className="border-t border-gray-200/50 dark:border-gray-700/50 hover:bg-gray-50/50 dark:hover:bg-gray-800/50 transition">
-                          <td className="px-3 py-2 text-sm font-medium whitespace-nowrap">{r.name}</td>
-                          <td className="px-3 py-2 text-xs whitespace-nowrap">{r.category}</td>
-                          <td className="px-3 py-2 text-xs whitespace-nowrap">{r.date}</td>
-                          <td className="px-3 py-2 whitespace-nowrap"><span className={`px-2 py-0.5 rounded-full text-xs ${r.status === 'Completed' ? 'bg-green-100 text-green-700' : r.status === 'Draft' ? 'bg-blue-100 text-blue-700' : 'bg-yellow-100 text-yellow-700'}`}>{r.status}</span></td>
-                          <td className="px-3 py-2 text-xs whitespace-nowrap">{r.format}</td>
+                          <td className="px-3 py-2 text-xs sm:text-sm font-medium whitespace-nowrap">{r.name}</td>
+                          <td className="px-3 py-2 text-[10px] sm:text-xs whitespace-nowrap">{r.category}</td>
+                          <td className="px-3 py-2 text-[10px] sm:text-xs whitespace-nowrap">{r.date}</td>
+                          <td className="px-3 py-2 whitespace-nowrap"><span className={`px-2 py-0.5 rounded-full text-[8px] sm:text-[10px] ${r.status === 'Completed' ? 'bg-green-100 text-green-700' : r.status === 'Draft' ? 'bg-blue-100 text-blue-700' : 'bg-yellow-100 text-yellow-700'}`}>{r.status}</span></td>
+                          <td className="px-3 py-2 text-[10px] sm:text-xs whitespace-nowrap">{r.format}</td>
                           <td className="px-3 py-2 flex gap-1 whitespace-nowrap">
                             <button onClick={() => handleStar(r.id)}>{r.starred ? <Star size={14} className="text-yellow-500" fill="currentColor" /> : <Star size={14} className="text-gray-400" />}</button>
                             <button onClick={() => handleView(r)}><Eye size={14} className="text-blue-500" /></button>
@@ -405,6 +415,7 @@ const Reports = () => {
             )}
           </div>
 
+          {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex justify-between items-center p-2 sm:p-3 border-t border-gray-200/50 dark:border-gray-700/50 bg-gray-50/30 dark:bg-gray-800/30">
               <button disabled={currentPage === 1} onClick={() => setCurrentPage(p => p-1)} className="px-3 py-1 rounded bg-gray-200 dark:bg-gray-700 disabled:opacity-50 text-sm"><ChevronLeft size={14} /></button>
@@ -415,10 +426,12 @@ const Reports = () => {
         </div>
       </div>
 
+      {/* Generate Modal */}
       <GenerateModal isOpen={isGenerateOpen} onClose={() => setIsGenerateOpen(false)} onGenerate={handleGenerate} />
 
+      {/* View Modal */}
       {selectedReport && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4">
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 w-full max-w-md sm:max-w-[480px] max-h-[90vh] overflow-y-auto shadow-2xl">
             <div className="flex justify-between items-start mb-4">
               <div><h3 className="text-lg sm:text-xl font-bold">{selectedReport.name}</h3><p className="text-sm text-gray-500">{selectedReport.author} • {selectedReport.date}</p></div>
@@ -433,8 +446,8 @@ const Reports = () => {
               <div><span className="text-gray-500">Shared:</span> {selectedReport.shared ? 'Yes' : 'No'}</div>
             </div>
             <div className="flex flex-col sm:flex-row gap-2 mt-4 pt-4 border-t">
-              <button onClick={() => handleDownload(selectedReport.id)} className="w-full sm:flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"><Download size={16} className="inline mr-2" /> Download</button>
-              <button className="w-full sm:flex-1 bg-gray-200 dark:bg-gray-700 py-2 rounded-lg hover:bg-gray-300"><Share2 size={16} className="inline mr-2" /> Share</button>
+              <button onClick={() => handleDownload(selectedReport.id)} className="w-full sm:flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 text-sm"><Download size={16} className="inline mr-2" /> Download</button>
+              <button className="w-full sm:flex-1 bg-gray-200 dark:bg-gray-700 py-2 rounded-lg hover:bg-gray-300 text-sm"><Share2 size={16} className="inline mr-2" /> Share</button>
             </div>
           </div>
         </div>

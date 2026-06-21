@@ -57,7 +57,7 @@ const RolesPermissions = () => {
   };
 
   return (
-    <div className="space-y-4 sm:space-y-6 animate-fade-in p-4 sm:p-0">
+    <div className="space-y-4 sm:space-y-6 animate-fade-in p-3 sm:p-4 md:p-0">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-black bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">Roles & Permissions</h1>
@@ -73,8 +73,8 @@ const RolesPermissions = () => {
               <div className="flex-1">
                 {editingRoleId === role.id ? (
                   <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center">
-                    <input type="text" defaultValue={role.name} onBlur={(e) => updateRoleName(role.id, e.target.value, role.description)} autoFocus className="px-2 py-1 border rounded w-full sm:w-auto" />
-                    <input type="text" defaultValue={role.description} onBlur={(e) => updateRoleName(role.id, role.name, e.target.value)} placeholder="Description" className="px-2 py-1 border rounded w-full sm:w-auto flex-1" />
+                    <input type="text" defaultValue={role.name} onBlur={(e) => updateRoleName(role.id, e.target.value, role.description)} autoFocus className="px-2 py-1 border rounded w-full sm:w-auto text-sm" />
+                    <input type="text" defaultValue={role.description} onBlur={(e) => updateRoleName(role.id, role.name, e.target.value)} placeholder="Description" className="px-2 py-1 border rounded w-full sm:w-auto flex-1 text-sm" />
                   </div>
                 ) : (
                   <div>

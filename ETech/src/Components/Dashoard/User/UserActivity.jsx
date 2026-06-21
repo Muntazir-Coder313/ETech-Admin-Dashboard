@@ -59,7 +59,7 @@ const UserActivity = () => {
   };
 
   return (
-    <div className="space-y-4 sm:space-y-6 animate-fade-in p-4 sm:p-0">
+    <div className="space-y-4 sm:space-y-6 animate-fade-in p-3 sm:p-4 md:p-0">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-black bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">User Activity</h1>

@@ -138,7 +138,7 @@ const AllUsers = () => {
   if (loading) return <div className="flex justify-center items-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div></div>;
 
   return (
-    <div className="space-y-4 sm:space-y-6 animate-fade-in p-4 sm:p-0">
+    <div className="space-y-4 sm:space-y-6 animate-fade-in p-3 sm:p-4 md:p-0">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-black bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">All Users</h1>
@@ -161,44 +161,44 @@ const AllUsers = () => {
       </div>
 
       <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
-        <div className="overflow-x-auto -mx-4 sm:mx-0">
+        <div className="overflow-x-auto">
           <div className="min-w-full inline-block align-middle">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
               <thead className="bg-gray-100/50 dark:bg-gray-800/50">
                 <tr>
-                  <th className="px-3 sm:px-4 py-2 sm:py-3"><input type="checkbox" checked={selectedUsers.length === paginatedUsers.length && paginatedUsers.length > 0} onChange={toggleSelectAll} className="rounded" /></th>
-                  <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold cursor-pointer hover:text-blue-500" onClick={() => handleSort('name')}>User <ArrowUpDown size={12} className="inline ml-1"/></th>
-                  <th className="hidden sm:table-cell px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold cursor-pointer" onClick={() => handleSort('role')}>Role</th>
-                  <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold cursor-pointer" onClick={() => handleSort('status')}>Status</th>
-                  <th className="hidden md:table-cell px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold cursor-pointer" onClick={() => handleSort('lastActive')}>Last Active</th>
-                  <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold">Actions</th>
+                  <th className="px-2 sm:px-4 py-2 sm:py-3"><input type="checkbox" checked={selectedUsers.length === paginatedUsers.length && paginatedUsers.length > 0} onChange={toggleSelectAll} className="rounded" /></th>
+                  <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold cursor-pointer hover:text-blue-500" onClick={() => handleSort('name')}>User <ArrowUpDown size={12} className="inline ml-1"/></th>
+                  <th className="hidden sm:table-cell px-2 sm:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold cursor-pointer" onClick={() => handleSort('role')}>Role</th>
+                  <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold cursor-pointer" onClick={() => handleSort('status')}>Status</th>
+                  <th className="hidden md:table-cell px-2 sm:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold cursor-pointer" onClick={() => handleSort('lastActive')}>Last Active</th>
+                  <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                 {paginatedUsers.map(user => (
                   <tr key={user.id} className="hover:bg-gray-100/50 dark:hover:bg-gray-800/50 transition">
-                    <td className="px-3 sm:px-4 py-3 sm:py-4"><input type="checkbox" checked={selectedUsers.includes(user.id)} onChange={() => toggleSelectUser(user.id)} className="rounded" /></td>
-                    <td className="px-3 sm:px-4 py-3 sm:py-4"><div className="flex items-center gap-2 sm:gap-3"><img src={user.avatar} className="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover" /><div><p className="font-medium text-sm sm:text-base">{user.name}</p><p className="text-xs text-gray-500">{user.email}</p></div></div></td>
-                    <td className="hidden sm:table-cell px-3 sm:px-4 py-3 sm:py-4"><span className={`px-2 py-1 rounded-full text-xs font-medium ${user.role === 'Admin' ? 'bg-purple-100 text-purple-700' : user.role === 'Editor' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'}`}>{user.role}</span></td>
-                    <td className="px-3 sm:px-4 py-3 sm:py-4"><span className={`px-2 py-1 rounded-full text-xs font-medium ${user.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>{user.status}</span></td>
-                    <td className="hidden md:table-cell px-3 sm:px-4 py-3 sm:py-4 text-sm">{user.lastActive}</td>
-                    <td className="px-3 sm:px-4 py-3 sm:py-4 flex gap-1 sm:gap-2">
+                    <td className="px-2 sm:px-4 py-2 sm:py-3"><input type="checkbox" checked={selectedUsers.includes(user.id)} onChange={() => toggleSelectUser(user.id)} className="rounded" /></td>
+                    <td className="px-2 sm:px-4 py-2 sm:py-3"><div className="flex items-center gap-2 sm:gap-3"><img src={user.avatar} className="w-6 h-6 sm:w-8 sm:h-8 rounded-full object-cover" /><div><p className="font-medium text-xs sm:text-sm">{user.name}</p><p className="text-[10px] text-gray-500">{user.email}</p></div></div></td>
+                    <td className="hidden sm:table-cell px-2 sm:px-4 py-2 sm:py-3"><span className={`px-2 py-1 rounded-full text-[10px] font-medium ${user.role === 'Admin' ? 'bg-purple-100 text-purple-700' : user.role === 'Editor' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'}`}>{user.role}</span></td>
+                    <td className="px-2 sm:px-4 py-2 sm:py-3"><span className={`px-2 py-1 rounded-full text-[10px] font-medium ${user.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>{user.status}</span></td>
+                    <td className="hidden md:table-cell px-2 sm:px-4 py-2 sm:py-3 text-xs">{user.lastActive}</td>
+                    <td className="px-2 sm:px-4 py-2 sm:py-3 flex gap-1 sm:gap-2">
                       <button onClick={() => { setViewingUser(user); setIsViewModalOpen(true); }} className="text-gray-500 hover:text-blue-500"><Eye size={16}/></button>
                       <button onClick={() => { setEditingUser(user); setFormData(user); setIsModalOpen(true); }} className="text-blue-500 hover:text-blue-700"><Edit2 size={16}/></button>
                       <button onClick={() => handleDeleteUser(user.id)} className="text-red-500 hover:text-red-700"><Trash2 size={16}/></button>
                     </td>
                   </tr>
                 ))}
-                {paginatedUsers.length === 0 && <tr><td colSpan="6" className="text-center py-8 text-gray-400">No users found</td></tr>}
+                {paginatedUsers.length === 0 && <tr><td colSpan="6" className="text-center py-8 text-gray-400 text-sm">No users found</td></tr>}
               </tbody>
             </table>
           </div>
         </div>
         {totalPages > 1 && (
-          <div className="flex justify-between items-center p-3 sm:p-4 border-t border-gray-200 dark:border-gray-700">
-            <button onClick={() => setCurrentPage(p => Math.max(1, p-1))} disabled={currentPage === 1} className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50"><ChevronLeft size={16}/></button>
-            <span className="text-sm">Page {currentPage} of {totalPages}</span>
-            <button onClick={() => setCurrentPage(p => Math.min(totalPages, p+1))} disabled={currentPage === totalPages} className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50"><ChevronRight size={16}/></button>
+          <div className="flex justify-between items-center p-2 sm:p-4 border-t border-gray-200 dark:border-gray-700">
+            <button onClick={() => setCurrentPage(p => Math.max(1, p-1))} disabled={currentPage === 1} className="px-2 sm:px-3 py-1 rounded bg-gray-200 disabled:opacity-50"><ChevronLeft size={16}/></button>
+            <span className="text-xs sm:text-sm">Page {currentPage} of {totalPages}</span>
+            <button onClick={() => setCurrentPage(p => Math.min(totalPages, p+1))} disabled={currentPage === totalPages} className="px-2 sm:px-3 py-1 rounded bg-gray-200 disabled:opacity-50"><ChevronRight size={16}/></button>
           </div>
         )}
       </div>
@@ -227,10 +227,10 @@ const AllUsers = () => {
               <button onClick={() => setIsViewModalOpen(false)}><X size={20}/></button>
             </div>
             <div className="flex flex-col items-center mt-4">
-              <img src={viewingUser.avatar} className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover ring-4 ring-blue-500" alt="profile" />
+              <img src={viewingUser.avatar} className="w-16 h-16 sm:w-24 sm:h-24 rounded-full object-cover ring-4 ring-blue-500" alt="profile" />
               <h2 className="text-lg sm:text-xl font-bold mt-3">{viewingUser.name}</h2>
-              <p className="text-gray-500">{viewingUser.email}</p>
-              <div className="w-full mt-4 space-y-2 text-sm">
+              <p className="text-sm text-gray-500">{viewingUser.email}</p>
+              <div className="w-full mt-4 space-y-2 text-xs sm:text-sm">
                 <div className="flex flex-col sm:flex-row justify-between"><span className="text-gray-500">Role:</span><span className="font-medium">{viewingUser.role}</span></div>
                 <div className="flex flex-col sm:flex-row justify-between"><span className="text-gray-500">Status:</span><span className={`font-medium ${viewingUser.status === 'Active' ? 'text-green-600' : 'text-red-600'}`}>{viewingUser.status}</span></div>
                 <div className="flex flex-col sm:flex-row justify-between"><span className="text-gray-500">Location:</span><span>{viewingUser.location}</span></div>

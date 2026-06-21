@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Eye, EyeOff, Mail, Lock, User, 
-  Zap, Shield, Activity, AlertCircle, CheckCircle
+  Zap, Shield, Activity, AlertCircle, CheckCircle,
+  RefreshCw, Shuffle
 } from 'lucide-react';
 
 const LoginPage = ({ onLogin }) => {
@@ -12,6 +13,76 @@ const LoginPage = ({ onLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  // -------- PUZZLE STATE ----------
+  const [puzzleLetters, setPuzzleLetters] = useState([]);
+  const [selectedLetters, setSelectedLetters] = useState([]);
+  const [puzzleSolved, setPuzzleSolved] = useState(false);
+  const [showPuzzle, setShowPuzzle] = useState(false);
+  const [attempts, setAttempts] = useState(0);
+  const [hint, setHint] = useState('');
+
+  // ✅ EASY PUZZLE PASSWORD: "1234"
+  const CORRECT_PASSWORD = '1234';
+  
+  // Generate shuffled letters from password
+  const generatePuzzle = () => {
+    const letters = CORRECT_PASSWORD.split('');
+    // Shuffle array
+    for (let i = letters.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [letters[i], letters[j]] = [letters[j], letters[i]];
+    }
+    setPuzzleLetters(letters);
+    setSelectedLetters([]);
+    setPuzzleSolved(false);
+    setAttempts(0);
+    setHint('');
+  };
+
+  // Initialize puzzle on mount
+  useEffect(() => {
+    generatePuzzle();
+  }, []);
+
+  // Handle letter click
+  const handleLetterClick = (letter, index) => {
+    if (puzzleSolved) return;
+    if (selectedLetters.includes(index)) {
+      setSelectedLetters(selectedLetters.filter(i => i !== index));
+    } else {
+      setSelectedLetters([...selectedLetters, index]);
+    }
+  };
+
+  // Check if puzzle is solved
+  const checkPuzzle = () => {
+    if (selectedLetters.length === 0) return;
+    
+    const selectedText = selectedLetters
+      .sort((a, b) => a - b)
+      .map(index => puzzleLetters[index])
+      .join('');
+    
+    if (selectedText === CORRECT_PASSWORD) {
+      setPuzzleSolved(true);
+      setPassword(CORRECT_PASSWORD);
+      setShowPuzzle(false);
+      setSuccess(true);
+      setTimeout(() => {
+        onLogin(username, CORRECT_PASSWORD);
+      }, 1000);
+    } else {
+      setAttempts(attempts + 1);
+      if (attempts >= 2) {
+        setHint('💡 Hint: The password is "1234"');
+      } else {
+        setError(true);
+        setTimeout(() => setError(false), 2000);
+      }
+      setSelectedLetters([]);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,6 +96,8 @@ const LoginPage = ({ onLogin }) => {
         setError(true);
         setPassword('');
         setLoading(false);
+        setShowPuzzle(true);
+        generatePuzzle();
       } else {
         setSuccess(true);
         setLoading(false);
@@ -34,7 +107,6 @@ const LoginPage = ({ onLogin }) => {
 
   const handleSocialLogin = (provider) => {
     console.log(`Signing in with ${provider}...`);
-    // You can replace this with a real social login flow.
   };
 
   return (
@@ -60,7 +132,7 @@ const LoginPage = ({ onLogin }) => {
                 Welcome Back!
               </h1>
               <p className="text-blue-100 text-lg font-light drop-shadow">
-                Sign in to your dashboard and stay ahead.
+                🧩 Solve the puzzle to unlock your account
               </p>
             </div>
 
@@ -104,10 +176,12 @@ const LoginPage = ({ onLogin }) => {
 
           <div className="text-center md:text-left">
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 dark:text-white">Sign In</h2>
-            <p className="text-slate-500 dark:text-slate-400 mt-1 text-sm">Enter your credentials to continue.</p>
+            <p className="text-slate-500 dark:text-slate-400 mt-1 text-sm">
+              {showPuzzle ? '🔐 Arrange the tiles to reveal the password' : 'Enter your credentials to continue.'}
+            </p>
           </div>
 
-          {/* Social login buttons – using emojis instead of icon components */}
+          {/* Social login buttons */}
           <div className="mt-6 grid grid-cols-2 gap-3">
             <button
               onClick={() => handleSocialLogin('Google')}
@@ -160,24 +234,33 @@ const LoginPage = ({ onLogin }) => {
                 <label htmlFor="password" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
                   Password
                 </label>
-                <a href="#" className="text-sm text-blue-600 dark:text-blue-400 hover:underline font-medium">
-                  Forgot password?
-                </a>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowPuzzle(!showPuzzle);
+                    if (!showPuzzle) generatePuzzle();
+                  }}
+                  className="text-sm text-purple-600 dark:text-purple-400 hover:underline font-medium flex items-center gap-1"
+                >
+                  <Shuffle size={14} /> {showPuzzle ? 'Hide Puzzle' : '🧩 Solve Puzzle'}
+                </button>
               </div>
               <div className="relative mt-1">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
-                  placeholder="••••••••"
+                  placeholder={showPuzzle ? 'Click tiles to form the password' : '••••••••'}
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
                     setError(false);
+                    if (showPuzzle) setShowPuzzle(false);
                   }}
-                  className="w-full pl-10 pr-12 py-3 border border-slate-300 dark:border-slate-600 rounded-xl bg-white/80 dark:bg-slate-700/80 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition disabled:opacity-50"
+                  className={`w-full pl-10 pr-12 py-3 border border-slate-300 dark:border-slate-600 rounded-xl bg-white/80 dark:bg-slate-700/80 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition disabled:opacity-50 ${showPuzzle ? 'bg-purple-50 dark:bg-purple-900/20 border-purple-400' : ''}`}
                   required
                   disabled={loading}
+                  readOnly={showPuzzle}
                 />
                 <button
                   type="button"
@@ -188,6 +271,100 @@ const LoginPage = ({ onLogin }) => {
                 </button>
               </div>
             </div>
+
+            {/* 🧩 PUZZLE SECTION – Easy "1234" */}
+            {showPuzzle && (
+              <div className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 p-4 rounded-xl border border-purple-200 dark:border-purple-800">
+                <div className="flex justify-between items-center mb-3">
+                  <p className="text-sm font-medium text-purple-700 dark:text-purple-300">
+                    🧩 Arrange the tiles to reveal the password
+                  </p>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={generatePuzzle}
+                      className="p-1.5 rounded-lg bg-purple-200 dark:bg-purple-800 hover:bg-purple-300 dark:hover:bg-purple-700 transition"
+                      title="Shuffle letters"
+                    >
+                      <RefreshCw size={14} className="text-purple-700 dark:text-purple-300" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedLetters([]);
+                        setError(false);
+                      }}
+                      className="p-1.5 rounded-lg bg-red-200 dark:bg-red-800 hover:bg-red-300 dark:hover:bg-red-700 transition"
+                      title="Clear selection"
+                    >
+                      <span className="text-xs font-bold text-red-700 dark:text-red-300">✕</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Letter tiles */}
+                <div className="flex flex-wrap gap-2 justify-center mb-4">
+                  {puzzleLetters.map((letter, index) => {
+                    const isSelected = selectedLetters.includes(index);
+                    return (
+                      <button
+                        key={index}
+                        type="button"
+                        onClick={() => handleLetterClick(letter, index)}
+                        className={`
+                          w-12 h-12 sm:w-14 sm:h-14 rounded-xl font-bold text-xl sm:text-2xl
+                          transition-all duration-200 transform hover:scale-110
+                          ${isSelected 
+                            ? 'bg-gradient-to-r from-purple-500 to-indigo-500 text-white shadow-lg scale-110' 
+                            : 'bg-white dark:bg-slate-700 text-slate-800 dark:text-white hover:bg-purple-100 dark:hover:bg-purple-900/30 shadow-md'
+                          }
+                        `}
+                      >
+                        {letter}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Selected letters display */}
+                <div className="bg-white/80 dark:bg-slate-800/80 rounded-lg p-3 mb-3 min-h-[48px] flex items-center justify-center gap-1 border border-purple-200 dark:border-purple-800">
+                  {selectedLetters.length === 0 ? (
+                    <span className="text-sm text-gray-400">Click the tiles in order: 1 → 2 → 3 → 4</span>
+                  ) : (
+                    selectedLetters
+                      .sort((a, b) => a - b)
+                      .map((idx, i) => (
+                        <span key={i} className="text-2xl font-bold text-purple-700 dark:text-purple-300">
+                          {puzzleLetters[idx]}
+                        </span>
+                      ))
+                  )}
+                </div>
+
+                {/* Attempts and hint */}
+                {attempts > 0 && (
+                  <div className="text-sm text-amber-600 dark:text-amber-400 mb-3">
+                    Attempts: {attempts} 
+                    {hint && <span className="block text-xs text-purple-600 dark:text-purple-400 mt-1">💡 {hint}</span>}
+                  </div>
+                )}
+
+                <button
+                  type="button"
+                  onClick={checkPuzzle}
+                  disabled={selectedLetters.length === 0}
+                  className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-semibold py-2 px-4 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  🔓 Check Password
+                </button>
+
+                {puzzleSolved && (
+                  <div className="mt-3 p-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-lg text-center font-medium animate-pulse">
+                    ✅ Password unlocked! Signing in...
+                  </div>
+                )}
+              </div>
+            )}
 
             <div className="flex items-center justify-between">
               <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 cursor-pointer">
@@ -204,7 +381,7 @@ const LoginPage = ({ onLogin }) => {
             {error && (
               <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 text-sm p-3 rounded-xl flex items-center gap-2 animate-shake">
                 <AlertCircle className="w-4 h-4 flex-shrink-0" />
-                <span>Invalid username or password. Please try again.</span>
+                <span>Oops! Try the puzzle – the password is "1234"</span>
               </div>
             )}
 

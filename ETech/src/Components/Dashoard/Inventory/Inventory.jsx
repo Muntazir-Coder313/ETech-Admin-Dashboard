@@ -13,6 +13,7 @@ const getProductImage = (name) => {
   return `https://picsum.photos/seed/${seed}/80/80`;
 };
 
+// Inventory Modal
 const InventoryModal = ({ isOpen, onClose, onSubmit, item, title }) => {
   const [form, setForm] = useState(item || { 
     name: '', category: '', stock: '', reorderLevel: '', 
@@ -22,39 +23,40 @@ const InventoryModal = ({ isOpen, onClose, onSubmit, item, title }) => {
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in p-4">
       <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 w-full max-w-md shadow-2xl border border-gray-200 dark:border-gray-700 max-h-[90vh] overflow-y-auto">
-        <h3 className="text-lg sm:text-xl font-bold mb-4">{title}</h3>
-        <input type="text" placeholder="Product name" value={form.name} onChange={e => setForm({...form, name: e.target.value})} className="w-full p-2 border rounded-lg mb-3 text-sm sm:text-base" />
-        <input type="text" placeholder="Category" value={form.category} onChange={e => setForm({...form, category: e.target.value})} className="w-full p-2 border rounded-lg mb-3 text-sm sm:text-base" />
-        <input type="number" placeholder="Stock" value={form.stock} onChange={e => setForm({...form, stock: e.target.value})} className="w-full p-2 border rounded-lg mb-3 text-sm sm:text-base" />
-        <input type="number" placeholder="Reorder Level" value={form.reorderLevel} onChange={e => setForm({...form, reorderLevel: e.target.value})} className="w-full p-2 border rounded-lg mb-3 text-sm sm:text-base" />
-        <input type="number" placeholder="Price ($)" value={form.price} onChange={e => setForm({...form, price: e.target.value})} className="w-full p-2 border rounded-lg mb-3 text-sm sm:text-base" />
-        <input type="text" placeholder="Warehouse" value={form.warehouse} onChange={e => setForm({...form, warehouse: e.target.value})} className="w-full p-2 border rounded-lg mb-3 text-sm sm:text-base" />
-        <select value={form.status} onChange={e => setForm({...form, status: e.target.value})} className="w-full p-2 border rounded-lg mb-3 text-sm sm:text-base">
+        <h3 className="text-base sm:text-lg font-bold mb-4">{title}</h3>
+        <input type="text" placeholder="Product name" value={form.name} onChange={e => setForm({...form, name: e.target.value})} className="w-full p-2 border rounded-lg mb-3 text-sm" />
+        <input type="text" placeholder="Category" value={form.category} onChange={e => setForm({...form, category: e.target.value})} className="w-full p-2 border rounded-lg mb-3 text-sm" />
+        <input type="number" placeholder="Stock" value={form.stock} onChange={e => setForm({...form, stock: e.target.value})} className="w-full p-2 border rounded-lg mb-3 text-sm" />
+        <input type="number" placeholder="Reorder Level" value={form.reorderLevel} onChange={e => setForm({...form, reorderLevel: e.target.value})} className="w-full p-2 border rounded-lg mb-3 text-sm" />
+        <input type="number" placeholder="Price ($)" value={form.price} onChange={e => setForm({...form, price: e.target.value})} className="w-full p-2 border rounded-lg mb-3 text-sm" />
+        <input type="text" placeholder="Warehouse" value={form.warehouse} onChange={e => setForm({...form, warehouse: e.target.value})} className="w-full p-2 border rounded-lg mb-3 text-sm" />
+        <select value={form.status} onChange={e => setForm({...form, status: e.target.value})} className="w-full p-2 border rounded-lg mb-3 text-sm">
           <option>In Stock</option><option>Low Stock</option><option>Out of Stock</option>
         </select>
         <div className="flex flex-col sm:flex-row justify-end gap-2">
-          <button onClick={() => { onSubmit(form); onClose(); }} className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm sm:text-base">Save</button>
-          <button onClick={onClose} className="bg-gray-300 dark:bg-gray-600 px-4 py-2 rounded-lg text-sm sm:text-base">Cancel</button>
+          <button onClick={() => { onSubmit(form); onClose(); }} className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm">Save</button>
+          <button onClick={onClose} className="bg-gray-300 dark:bg-gray-600 px-4 py-2 rounded-lg text-sm">Cancel</button>
         </div>
       </div>
     </div>
   );
 };
 
+// Stat Card – Smaller fonts
 const StatCard = ({ title, value, icon, color, change, subtitle }) => (
-  <div className="bg-gradient-to-br from-white/90 to-white/60 dark:from-gray-900/90 dark:to-gray-800/60 backdrop-blur-sm rounded-2xl p-4 sm:p-5 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-2xl transition-all duration-300 group">
+  <div className="bg-gradient-to-br from-white/90 to-white/60 dark:from-gray-900/90 dark:to-gray-800/60 backdrop-blur-sm rounded-2xl p-3 sm:p-4 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-2xl transition-all duration-300 group">
     <div className="flex justify-between items-start">
       <div>
-        <p className="text-gray-500 dark:text-gray-400 text-xs font-medium uppercase tracking-wider">{title}</p>
-        <p className="text-xl sm:text-2xl md:text-3xl font-black text-gray-800 dark:text-white mt-1">{value}</p>
-        {subtitle && <p className="text-xs text-gray-400 mt-0.5">{subtitle}</p>}
+        <p className="text-gray-500 dark:text-gray-400 text-[10px] sm:text-xs font-medium uppercase tracking-wider">{title}</p>
+        <p className="text-base sm:text-lg md:text-xl font-bold text-gray-800 dark:text-white mt-0.5">{value}</p>
+        {subtitle && <p className="text-[10px] sm:text-xs text-gray-400 mt-0.5">{subtitle}</p>}
       </div>
-      <div className={`p-2 sm:p-3 rounded-xl bg-gradient-to-br ${color} shadow-lg group-hover:scale-110 transition`}>
+      <div className={`p-2 rounded-xl bg-gradient-to-br ${color} shadow-lg group-hover:scale-110 transition flex-shrink-0`}>
         {icon}
       </div>
     </div>
     {change && (
-      <div className="mt-3 flex items-center gap-1 text-xs">
+      <div className="mt-2 flex items-center gap-1 text-[10px] sm:text-xs">
         {change >= 0 ? <TrendingUp size={14} className="text-green-500" /> : <TrendingDown size={14} className="text-red-500" />}
         <span className={change >= 0 ? 'text-green-500' : 'text-red-500'}>{Math.abs(change)}%</span>
         <span className="text-gray-400">vs last month</span>
@@ -63,13 +65,14 @@ const StatCard = ({ title, value, icon, color, change, subtitle }) => (
   </div>
 );
 
+// Stock Progress Bar
 const StockProgress = ({ stock, reorderLevel }) => {
   const maxStock = reorderLevel * 3 || 100;
   const percentage = Math.min((stock / maxStock) * 100, 100);
   const color = stock <= reorderLevel ? 'bg-red-500' : stock <= reorderLevel * 1.5 ? 'bg-yellow-500' : 'bg-green-500';
   return (
-    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-      <div className={`h-2.5 rounded-full ${color} transition-all duration-500`} style={{ width: `${percentage}%` }} />
+    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 sm:h-2">
+      <div className={`h-1.5 sm:h-2 rounded-full ${color} transition-all duration-500`} style={{ width: `${percentage}%` }} />
     </div>
   );
 };
@@ -98,7 +101,7 @@ const Inventory = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
-  const itemsPerPage = 8;
+  const itemsPerPage = 5;
 
   const fetchInventory = useCallback(async (showToast = false) => {
     setLoading(true);
@@ -201,9 +204,9 @@ const Inventory = () => {
 
   const getStatusIcon = (status) => {
     switch(status) {
-      case 'In Stock': return <CheckCircle size={18} className="text-green-500" />;
-      case 'Low Stock': return <AlertTriangle size={18} className="text-yellow-500" />;
-      case 'Out of Stock': return <XCircle size={18} className="text-red-500" />;
+      case 'In Stock': return <CheckCircle size={16} className="text-green-500" />;
+      case 'Low Stock': return <AlertTriangle size={16} className="text-yellow-500" />;
+      case 'Out of Stock': return <XCircle size={16} className="text-red-500" />;
       default: return null;
     }
   };
@@ -211,26 +214,29 @@ const Inventory = () => {
   if (loading) return <div className="flex justify-center items-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-500"></div></div>;
 
   return (
-    <div className="space-y-4 sm:space-y-6 animate-fade-in p-4 sm:p-0">
+    <div className="space-y-4 sm:space-y-6 animate-fade-in p-3 sm:p-4 md:p-0">
+      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-black bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400 bg-clip-text text-transparent">📦 Inventory</h1>
-          <p className="text-sm md:text-base text-gray-500 dark:text-gray-400">Warehouse & stock management</p>
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400 bg-clip-text text-transparent">📦 Inventory</h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Warehouse & stock management</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <button onClick={exportCSV} className="bg-teal-600 hover:bg-teal-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl shadow flex items-center gap-2 text-sm sm:text-base"><Download size={18} /> Export</button>
-          <button onClick={() => { setEditingItem(null); setIsModalOpen(true); }} className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl shadow flex items-center gap-2 text-sm sm:text-base"><Plus size={18} /> Add Item</button>
-          <button onClick={() => { setRefreshing(true); fetchInventory(true); }} disabled={refreshing} className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1.5 sm:py-2 rounded-xl shadow"><RefreshCw size={18} className={refreshing ? 'animate-spin' : ''} /></button>
+          <button onClick={exportCSV} className="bg-teal-600 hover:bg-teal-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl shadow flex items-center gap-2 text-sm"><Download size={16} /> Export</button>
+          <button onClick={() => { setEditingItem(null); setIsModalOpen(true); }} className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl shadow flex items-center gap-2 text-sm"><Plus size={16} /> Add Item</button>
+          <button onClick={() => { setRefreshing(true); fetchInventory(true); }} disabled={refreshing} className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1.5 sm:py-2 rounded-xl shadow"><RefreshCw size={16} className={refreshing ? 'animate-spin' : ''} /></button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-        <StatCard title="Total Items" value={totalItems} icon={<Package size={22} className="text-white" />} color="from-teal-500 to-cyan-500" change={8} />
-        <StatCard title="Low Stock" value={lowStockItems} icon={<AlertTriangle size={22} className="text-white" />} color="from-amber-500 to-orange-500" change={-2} />
-        <StatCard title="Out of Stock" value={outOfStock} icon={<XCircle size={22} className="text-white" />} color="from-red-500 to-pink-500" change={5} />
-        <StatCard title="Total Value" value={`$${totalValue.toLocaleString()}`} icon={<DollarSign size={22} className="text-white" />} color="from-purple-500 to-indigo-500" subtitle={`${categories.length - 1} categories`} />
+      {/* Summary Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <StatCard title="Total Items" value={totalItems} icon={<Package size={20} className="text-white" />} color="from-teal-500 to-cyan-500" change={8} />
+        <StatCard title="Low Stock" value={lowStockItems} icon={<AlertTriangle size={20} className="text-white" />} color="from-amber-500 to-orange-500" change={-2} />
+        <StatCard title="Out of Stock" value={outOfStock} icon={<XCircle size={20} className="text-white" />} color="from-red-500 to-pink-500" change={5} />
+        <StatCard title="Total Value" value={`$${totalValue.toLocaleString()}`} icon={<DollarSign size={20} className="text-white" />} color="from-purple-500 to-indigo-500" subtitle={`${categories.length - 1} categories`} />
       </div>
 
+      {/* Filters */}
       <div className="flex flex-col sm:flex-row flex-wrap gap-3 items-start sm:items-center">
         <div className="relative flex-1 max-w-full sm:max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -244,19 +250,20 @@ const Inventory = () => {
         </select>
       </div>
 
+      {/* Inventory Table */}
       <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
-        <div className="overflow-x-auto -mx-4 sm:mx-0">
+        <div className="overflow-x-auto -mx-3 sm:mx-0">
           <div className="min-w-full inline-block align-middle">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
               <thead className="bg-gradient-to-r from-teal-50/80 to-cyan-50/80 dark:from-gray-800/80 dark:to-gray-700/80">
                 <tr>
-                  <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:text-teal-600" onClick={() => handleSort('name')}>Product</th>
-                  <th className="hidden sm:table-cell px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:text-teal-600" onClick={() => handleSort('category')}>Category</th>
-                  <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:text-teal-600" onClick={() => handleSort('stock')}>Stock</th>
-                  <th className="hidden md:table-cell px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Warehouse</th>
-                  <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:text-teal-600" onClick={() => handleSort('status')}>Status</th>
-                  <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider"></th>
-                  <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider"></th>
+                  <th className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:text-teal-600 whitespace-nowrap" onClick={() => handleSort('name')}>Product</th>
+                  <th className="hidden sm:table-cell px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:text-teal-600">Category</th>
+                  <th className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:text-teal-600 whitespace-nowrap">Stock</th>
+                  <th className="hidden md:table-cell px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Warehouse</th>
+                  <th className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:text-teal-600 whitespace-nowrap">Status</th>
+                  <th className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider"></th>
+                  <th className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider"></th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -265,50 +272,50 @@ const Inventory = () => {
                   return (
                     <React.Fragment key={item.id}>
                       <tr className={`hover:bg-gray-100/50 dark:hover:bg-gray-800/50 transition group ${isCritical ? 'bg-red-50/30 dark:bg-red-900/10' : ''}`}>
-                        <td className="px-3 sm:px-4 py-3 sm:py-4">
+                        <td className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4">
                           <div className="flex items-center gap-2 sm:gap-3">
-                            <img src={getProductImage(item.name)} alt={item.name} className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg object-cover ring-1 ring-gray-300 dark:ring-gray-600" />
-                            <span className="font-medium text-sm sm:text-base text-gray-800 dark:text-white">{item.name}</span>
+                            <img src={getProductImage(item.name)} alt={item.name} className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg object-cover ring-1 ring-gray-300 dark:ring-gray-600 flex-shrink-0" />
+                            <span className="font-medium text-sm text-gray-800 dark:text-white truncate max-w-[80px] sm:max-w-none">{item.name}</span>
                           </div>
                         </td>
-                        <td className="hidden sm:table-cell px-3 sm:px-4 py-3 sm:py-4 text-sm text-gray-600 dark:text-gray-400"><span className="px-2 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-xs">{item.category}</span></td>
-                        <td className="px-3 sm:px-4 py-3 sm:py-4">
-                          <div className="flex flex-col gap-1 min-w-[80px]">
+                        <td className="hidden sm:table-cell px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4"><span className="px-2 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-[10px] sm:text-xs">{item.category}</span></td>
+                        <td className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4">
+                          <div className="flex flex-col gap-1 min-w-[70px]">
                             <div className="flex items-center gap-2">
                               <span className="font-bold text-gray-800 dark:text-white text-sm">{item.stock}</span>
-                              <span className="text-xs text-gray-400 hidden sm:inline">/ reorder: {item.reorderLevel}</span>
+                              <span className="text-[10px] sm:text-xs text-gray-400 hidden sm:inline">/ reorder: {item.reorderLevel}</span>
                             </div>
                             <StockProgress stock={item.stock} reorderLevel={item.reorderLevel} />
                           </div>
                         </td>
-                        <td className="hidden md:table-cell px-3 sm:px-4 py-3 sm:py-4">
-                          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 text-xs font-medium">
+                        <td className="hidden md:table-cell px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4">
+                          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 text-[10px] sm:text-xs font-medium">
                             <MapPin size={12} /> {item.warehouse}
                           </span>
                         </td>
-                        <td className="px-3 sm:px-4 py-3 sm:py-4">
-                          <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(item.status)}`}>
+                        <td className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 whitespace-nowrap">
+                          <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-[8px] sm:text-[10px] font-medium ${getStatusColor(item.status)}`}>
                             {getStatusIcon(item.status)} <span className="hidden sm:inline">{item.status}</span>
                           </span>
                         </td>
-                        <td className="px-3 sm:px-4 py-3 sm:py-4">
+                        <td className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4">
                           <div className="flex items-center gap-1">
                             <button onClick={() => handleAdjustStock(item.id, 1)} className="p-1 rounded hover:bg-green-100 dark:hover:bg-green-900/30 text-green-600"><PlusIcon size={14} /></button>
                             <button onClick={() => handleAdjustStock(item.id, -1)} className="p-1 rounded hover:bg-red-100 dark:hover:bg-red-900/30 text-red-600"><Minus size={14} /></button>
                           </div>
                         </td>
-                        <td className="px-3 sm:px-4 py-3 sm:py-4 flex gap-1 sm:gap-2">
+                        <td className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 flex gap-1 sm:gap-2">
                           <button onClick={() => toggleExpand(item.id)} className="text-gray-500 hover:text-teal-600 transition">
-                            {expandedRow === item.id ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                            {expandedRow === item.id ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                           </button>
-                          <button onClick={() => { setEditingItem(item); setIsModalOpen(true); }} className="text-blue-500 hover:text-blue-700"><Edit2 size={16} /></button>
-                          <button onClick={() => handleDelete(item.id)} className="text-red-500 hover:text-red-700"><Trash2 size={16} /></button>
+                          <button onClick={() => { setEditingItem(item); setIsModalOpen(true); }} className="text-blue-500 hover:text-blue-700"><Edit2 size={14} /></button>
+                          <button onClick={() => handleDelete(item.id)} className="text-red-500 hover:text-red-700"><Trash2 size={14} /></button>
                         </td>
                       </tr>
                       {expandedRow === item.id && (
                         <tr className="bg-teal-50/30 dark:bg-teal-900/10">
-                          <td colSpan="7" className="px-3 sm:px-4 py-3 sm:py-4 text-sm">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
+                          <td colSpan="7" className="px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 text-sm">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3">
                               <div><span className="font-semibold flex items-center gap-1"><Warehouse size={14} /> Warehouse:</span> {item.warehouse}</div>
                               <div><span className="font-semibold flex items-center gap-1"><AlertTriangle size={14} /> Reorder Level:</span> {item.reorderLevel}</div>
                               <div><span className="font-semibold flex items-center gap-1"><Calendar size={14} /> Last Updated:</span> {item.lastUpdated}</div>
@@ -316,23 +323,23 @@ const Inventory = () => {
                               <div><span className="font-semibold flex items-center gap-1"><Package size={14} /> Supplier:</span> {item.supplier}</div>
                               <div><span className="font-semibold flex items-center gap-1"><BarChart3 size={14} /> Movement:</span> {item.movement} this week</div>
                             </div>
-                            <div className="mt-2 text-xs text-gray-500">Stock is {item.stock <= item.reorderLevel ? '⚠️ below reorder level' : '✅ above reorder level'}</div>
+                            <div className="mt-2 text-[10px] sm:text-xs text-gray-500">Stock is {item.stock <= item.reorderLevel ? '⚠️ below reorder level' : '✅ above reorder level'}</div>
                           </td>
                         </tr>
                       )}
                     </React.Fragment>
                   );
                 })}
-                {paginated.length === 0 && <tr><td colSpan="7" className="text-center py-8 text-gray-400">No inventory items match</td></tr>}
+                {paginated.length === 0 && <tr><td colSpan="7" className="text-center py-8 text-gray-400 text-sm">No inventory items match</td></tr>}
               </tbody>
             </table>
           </div>
         </div>
         {totalPages > 1 && (
-          <div className="flex justify-between items-center p-3 sm:p-4 border-t border-gray-200 dark:border-gray-700">
-            <button disabled={currentPage===1} onClick={() => setCurrentPage(p => p-1)} className="px-3 py-1 rounded bg-gray-200 dark:bg-gray-700 disabled:opacity-50 hover:bg-gray-300 transition"><ChevronLeft size={16} /></button>
-            <span className="text-sm text-gray-600 dark:text-gray-400">Page {currentPage} of {totalPages}</span>
-            <button disabled={currentPage===totalPages} onClick={() => setCurrentPage(p => p+1)} className="px-3 py-1 rounded bg-gray-200 dark:bg-gray-700 disabled:opacity-50 hover:bg-gray-300 transition"><ChevronRight size={16} /></button>
+          <div className="flex justify-between items-center p-2 sm:p-3 md:p-4 border-t border-gray-200 dark:border-gray-700">
+            <button disabled={currentPage===1} onClick={() => setCurrentPage(p => p-1)} className="px-2 sm:px-3 py-1 rounded bg-gray-200 dark:bg-gray-700 disabled:opacity-50 hover:bg-gray-300 transition text-xs sm:text-sm"><ChevronLeft size={14} /></button>
+            <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Page {currentPage} of {totalPages}</span>
+            <button disabled={currentPage===totalPages} onClick={() => setCurrentPage(p => p+1)} className="px-2 sm:px-3 py-1 rounded bg-gray-200 dark:bg-gray-700 disabled:opacity-50 hover:bg-gray-300 transition text-xs sm:text-sm"><ChevronRight size={14} /></button>
           </div>
         )}
       </div>

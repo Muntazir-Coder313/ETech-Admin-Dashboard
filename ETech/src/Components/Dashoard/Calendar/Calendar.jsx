@@ -72,7 +72,7 @@ const generateMockEvents = () => {
   return events.sort((a, b) => a.date.localeCompare(b.date));
 };
 
-// Event Modal
+// Event Modal – Fully Responsive
 const EventModal = ({ isOpen, onClose, onSubmit, event, title, selectedDate }) => {
   const [form, setForm] = useState(event || { 
     title: '', 
@@ -97,7 +97,7 @@ const EventModal = ({ isOpen, onClose, onSubmit, event, title, selectedDate }) =
 
   if (!isOpen) return null;
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in p-4">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in p-3 sm:p-4">
       <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 w-full max-w-[95vw] sm:max-w-[450px] shadow-2xl border border-gray-200 dark:border-gray-700 max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg sm:text-xl font-bold">{title}</h3>
@@ -109,23 +109,23 @@ const EventModal = ({ isOpen, onClose, onSubmit, event, title, selectedDate }) =
             placeholder="Event title" 
             value={form.title}
             onChange={e => setForm({...form, title: e.target.value})}
-            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none"
+            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none text-sm sm:text-base"
           />
           <textarea 
             placeholder="Description (optional)" 
             value={form.description || ''}
             onChange={e => setForm({...form, description: e.target.value})}
             rows={2}
-            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none resize-none"
+            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none resize-none text-sm sm:text-base"
           />
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <MapPin size={18} className="text-gray-400 flex-shrink-0" />
             <input 
               type="text" 
               placeholder="Location" 
               value={form.location || ''}
               onChange={e => setForm({...form, location: e.target.value})}
-              className="flex-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none"
+              className="flex-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none text-sm sm:text-base"
             />
           </div>
           <div className="flex flex-wrap items-center gap-2">
@@ -134,7 +134,7 @@ const EventModal = ({ isOpen, onClose, onSubmit, event, title, selectedDate }) =
               type="time" 
               value={form.time || '09:00'}
               onChange={e => setForm({...form, time: e.target.value})}
-              className="p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none"
+              className="p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none text-sm"
               disabled={form.allDay}
             />
             <label className="flex items-center gap-1 text-sm ml-2">
@@ -152,7 +152,7 @@ const EventModal = ({ isOpen, onClose, onSubmit, event, title, selectedDate }) =
             <select 
               value={form.reminder || ''}
               onChange={e => setForm({...form, reminder: e.target.value ? parseInt(e.target.value) : null})}
-              className="flex-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none"
+              className="flex-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-900/70 focus:ring-2 focus:ring-purple-500 outline-none text-sm"
             >
               <option value="">No reminder</option>
               <option value="5">5 min before</option>
@@ -166,30 +166,30 @@ const EventModal = ({ isOpen, onClose, onSubmit, event, title, selectedDate }) =
               <button 
                 key={color} 
                 onClick={() => { setSelectedColor(color); setForm({...form, color}); }}
-                className={`w-8 h-8 rounded-full ${color} ${selectedColor === color ? 'ring-2 ring-offset-2 ring-purple-500' : ''}`}
+                className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full ${color} ${selectedColor === color ? 'ring-2 ring-offset-2 ring-purple-500' : ''}`}
                 title={colorNames[idx]}
               />
             ))}
           </div>
         </div>
-        <div className="flex justify-end gap-2 mt-4">
-          <button onClick={() => { onSubmit(form); onClose(); }} className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition">Save</button>
-          <button onClick={onClose} className="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 px-4 py-2 rounded-lg transition">Cancel</button>
+        <div className="flex flex-col sm:flex-row justify-end gap-2 mt-4">
+          <button onClick={() => { onSubmit(form); onClose(); }} className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition text-sm sm:text-base">Save</button>
+          <button onClick={onClose} className="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 px-4 py-2 rounded-lg transition text-sm sm:text-base">Cancel</button>
         </div>
       </div>
     </div>
   );
 };
 
-// Event Item Component
+// Event Item Component – Responsive
 const EventItem = ({ event, onEdit, onDelete }) => {
   return (
     <div className={`flex flex-wrap items-center justify-between p-2 rounded-lg ${event.color} bg-opacity-20 dark:bg-opacity-30 hover:bg-opacity-30 transition mb-1 group`}>
       <div className="flex items-center gap-2 flex-1 min-w-0">
         <div className={`w-2 h-2 rounded-full ${event.color} flex-shrink-0`} />
-        <span className="text-sm truncate">{event.title}</span>
-        {event.time && !event.allDay && <span className="text-xs text-gray-500 dark:text-gray-400 ml-auto flex-shrink-0">{event.time}</span>}
-        {event.allDay && <span className="text-xs text-gray-500 dark:text-gray-400 ml-auto flex-shrink-0">All day</span>}
+        <span className="text-xs sm:text-sm truncate">{event.title}</span>
+        {event.time && !event.allDay && <span className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 ml-auto flex-shrink-0">{event.time}</span>}
+        {event.allDay && <span className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 ml-auto flex-shrink-0">All day</span>}
       </div>
       <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition mt-1 sm:mt-0">
         <button onClick={() => onEdit(event)} className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700"><Edit2 size={14} className="text-gray-500" /></button>
@@ -228,7 +228,7 @@ const MiniCalendar = ({ currentDate, onSelectDate, selectedDate }) => {
             <div 
               key={day} 
               onClick={() => onSelectDate(dateObj)}
-              className={`cursor-pointer rounded-full w-7 h-7 flex items-center justify-center mx-auto transition ${isSelected ? 'bg-purple-600 text-white' : isTodayDate ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' : 'hover:bg-gray-200 dark:hover:bg-gray-700'}`}
+              className={`cursor-pointer rounded-full w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center mx-auto transition text-xs sm:text-sm ${isSelected ? 'bg-purple-600 text-white' : isTodayDate ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' : 'hover:bg-gray-200 dark:hover:bg-gray-700'}`}
             >
               {day}
             </div>
@@ -246,13 +246,12 @@ const Calendar = () => {
   const [events, setEvents] = useState(generateMockEvents);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingEvent, setEditingEvent] = useState(null);
-  const [view, setView] = useState('month'); // month, week, day, agenda
+  const [view, setView] = useState('month');
   const [searchTerm, setSearchTerm] = useState('');
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
 
-  // Filter events by search term
   const filteredEvents = useMemo(() => {
     if (!searchTerm.trim()) return events;
     return events.filter(e => 
@@ -262,7 +261,6 @@ const Calendar = () => {
     );
   }, [events, searchTerm]);
 
-  // Get events for a specific date
   const getEventsForDate = (date) => {
     return filteredEvents.filter(e => {
       const eDate = new Date(e.date);
@@ -270,7 +268,6 @@ const Calendar = () => {
     });
   };
 
-  // Get events for current week (for week view)
   const getWeekEvents = () => {
     const firstDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() - selectedDate.getDay());
     const week = [];
@@ -285,7 +282,6 @@ const Calendar = () => {
     }));
   };
 
-  // Get upcoming events for agenda view
   const getUpcomingEvents = () => {
     const today = new Date();
     const upcoming = filteredEvents
@@ -294,7 +290,6 @@ const Calendar = () => {
     return upcoming.slice(0, 10);
   };
 
-  // Navigation
   const prevPeriod = () => {
     if (view === 'month') setCurrentDate(new Date(year, month - 1, 1));
     else if (view === 'week') {
@@ -319,14 +314,12 @@ const Calendar = () => {
     setSelectedDate(today);
   };
 
-  // Select a day (for month view)
   const selectDay = (day) => {
     const date = new Date(year, month, day);
     setSelectedDate(date);
     setView('day');
   };
 
-  // Add/Edit event
   const handleAddEvent = (eventData) => {
     if (!eventData.title.trim()) {
       toast.error('Please enter a title');
@@ -360,13 +353,12 @@ const Calendar = () => {
     }
   };
 
-  // Check if a day has events
   const hasEvents = (day) => {
     const date = new Date(year, month, day);
     return filteredEvents.some(e => isSameDay(new Date(e.date), date));
   };
 
-  // Render month view
+  // Render month view – Fully Responsive
   const renderMonthView = () => {
     const daysInMonth = getDaysInMonth(year, month);
     const firstDay = getFirstDayOfMonth(year, month);
@@ -374,7 +366,7 @@ const Calendar = () => {
       <div className="p-2 sm:p-4">
         <div className="grid grid-cols-7 gap-0.5 sm:gap-1 mb-2">
           {['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(day => (
-            <div key={day} className="text-center text-[10px] sm:text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase py-1 sm:py-2">{day}</div>
+            <div key={day} className="text-center text-[8px] sm:text-[10px] md:text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase py-1 sm:py-2">{day}</div>
           ))}
         </div>
         <div className="grid grid-cols-7 gap-0.5 sm:gap-1">
@@ -389,11 +381,11 @@ const Calendar = () => {
               <div 
                 key={day} 
                 onClick={() => selectDay(day)}
-                className={`aspect-square flex flex-col items-center justify-center rounded-lg sm:rounded-xl cursor-pointer transition hover:scale-105 text-xs sm:text-sm ${isSelected ? 'bg-purple-600 text-white' : isCurrentDay ? 'bg-purple-100 dark:bg-purple-900/30' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
+                className={`aspect-square flex flex-col items-center justify-center rounded-lg sm:rounded-xl cursor-pointer transition hover:scale-105 text-[10px] sm:text-sm ${isSelected ? 'bg-purple-600 text-white' : isCurrentDay ? 'bg-purple-100 dark:bg-purple-900/30' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
               >
                 <span className={`font-medium ${isSelected ? 'text-white' : 'text-gray-800 dark:text-white'}`}>{day}</span>
                 {hasEvent && !isSelected && <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-purple-500 mt-0.5" />}
-                {isSelected && <span className="text-[8px] sm:text-xs mt-0.5 opacity-70">{getEventsForDate(date).length} events</span>}
+                {isSelected && <span className="text-[6px] sm:text-[8px] md:text-xs mt-0.5 opacity-70">{getEventsForDate(date).length} events</span>}
               </div>
             );
           })}
@@ -402,29 +394,27 @@ const Calendar = () => {
     );
   };
 
-  // Render week view
+  // Render week view – Fully Responsive
   const renderWeekView = () => {
     const weekData = getWeekEvents();
     return (
       <div className="p-2 sm:p-4">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-sm sm:text-lg font-semibold">
-            Week of {weekData[0].date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-          </h3>
+          <h3 className="text-xs sm:text-lg font-semibold">Week of {weekData[0].date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</h3>
         </div>
         <div className="grid grid-cols-7 gap-1 sm:gap-2">
           {weekData.map((day, idx) => (
             <div key={idx} className={`rounded-lg sm:rounded-xl p-1 sm:p-2 ${isSameDay(day.date, selectedDate) ? 'bg-purple-100 dark:bg-purple-900/30' : 'bg-white/50 dark:bg-gray-800/50'}`}>
               <div className="text-center">
-                <div className="text-[10px] sm:text-xs font-medium text-gray-500">{getShortDayName(day.date.getDay())}</div>
-                <div className={`text-sm sm:text-lg font-bold ${isToday(day.date) ? 'text-purple-600' : 'text-gray-800 dark:text-white'}`}>{day.date.getDate()}</div>
+                <div className="text-[8px] sm:text-xs font-medium text-gray-500">{getShortDayName(day.date.getDay())}</div>
+                <div className={`text-xs sm:text-lg font-bold ${isToday(day.date) ? 'text-purple-600' : 'text-gray-800 dark:text-white'}`}>{day.date.getDate()}</div>
               </div>
-              <div className="mt-1 sm:mt-2 space-y-0.5 sm:space-y-1 max-h-24 sm:max-h-32 overflow-y-auto">
+              <div className="mt-1 sm:mt-2 space-y-0.5 sm:space-y-1 max-h-20 sm:max-h-32 overflow-y-auto">
                 {day.events.length === 0 ? (
-                  <div className="text-[8px] sm:text-xs text-gray-400 text-center py-0.5 sm:py-1">No events</div>
+                  <div className="text-[6px] sm:text-xs text-gray-400 text-center py-0.5 sm:py-1">No events</div>
                 ) : (
                   day.events.map(event => (
-                    <div key={event.id} className={`text-[8px] sm:text-xs p-0.5 sm:p-1 rounded ${event.color} text-white truncate cursor-pointer hover:opacity-80`}>
+                    <div key={event.id} className={`text-[6px] sm:text-xs p-0.5 sm:p-1 rounded ${event.color} text-white truncate cursor-pointer hover:opacity-80`}>
                       {event.time && !event.allDay ? event.time : ''} {event.title}
                     </div>
                   ))
@@ -437,20 +427,20 @@ const Calendar = () => {
     );
   };
 
-  // Render day view
+  // Render day view – Fully Responsive
   const renderDayView = () => {
     const dayEvents = getEventsForDate(selectedDate);
     return (
       <div className="p-2 sm:p-4">
         <div className="flex flex-wrap justify-between items-center mb-4">
-          <h3 className="text-base sm:text-xl font-bold text-gray-800 dark:text-white">
+          <h3 className="text-sm sm:text-xl font-bold text-gray-800 dark:text-white">
             {selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
           </h3>
           <button onClick={() => { setEditingEvent(null); setIsModalOpen(true); }} className="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded-lg flex items-center gap-1 text-xs sm:text-sm transition"><Plus size={16} /> Add</button>
         </div>
         <div className="space-y-2">
           {dayEvents.length === 0 ? (
-            <div className="text-center py-8 text-gray-400">No events for this day</div>
+            <div className="text-center py-8 text-gray-400 text-sm">No events for this day</div>
           ) : (
             dayEvents.map(event => (
               <EventItem key={event.id} event={event} onEdit={handleEditEvent} onDelete={handleDeleteEvent} />
@@ -461,20 +451,20 @@ const Calendar = () => {
     );
   };
 
-  // Render agenda view
+  // Render agenda view – Fully Responsive
   const renderAgendaView = () => {
     const upcoming = getUpcomingEvents();
     return (
       <div className="p-2 sm:p-4">
         <h3 className="text-base sm:text-xl font-bold mb-4">Upcoming Events</h3>
         {upcoming.length === 0 ? (
-          <div className="text-center py-8 text-gray-400">No upcoming events</div>
+          <div className="text-center py-8 text-gray-400 text-sm">No upcoming events</div>
         ) : (
           <div className="space-y-3">
             {upcoming.map(event => {
               const eventDate = new Date(event.date);
               return (
-                <div key={event.id} className="flex items-start gap-3 p-3 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 hover:shadow-md transition">
+                <div key={event.id} className="flex flex-col sm:flex-row sm:items-start gap-3 p-3 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 hover:shadow-md transition">
                   <div className={`w-1.5 h-full min-h-[40px] rounded-full ${event.color}`} />
                   <div className="flex-1">
                     <div className="flex flex-wrap justify-between">
@@ -498,7 +488,7 @@ const Calendar = () => {
   };
 
   return (
-    <div className="space-y-4 sm:space-y-6 animate-fade-in p-4 sm:p-0">
+    <div className="space-y-4 sm:space-y-6 animate-fade-in p-3 sm:p-4 md:p-0">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
@@ -513,7 +503,7 @@ const Calendar = () => {
 
       {/* Main Layout: Sidebar + Calendar */}
       <div className="flex flex-col lg:flex-row gap-6">
-        {/* Left Sidebar - appears on top on mobile, side on large screens */}
+        {/* Left Sidebar */}
         <div className="lg:w-1/4 space-y-4">
           <MiniCalendar 
             currentDate={currentDate}
@@ -566,10 +556,10 @@ const Calendar = () => {
                 <button onClick={nextPeriod} className="p-1.5 sm:p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition"><ChevronRight size={18} /></button>
               </div>
               <div className="flex flex-wrap gap-1 sm:gap-2">
-                <button onClick={() => setView('month')} className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg text-xs sm:text-sm transition ${view === 'month' ? 'bg-purple-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}>Month</button>
-                <button onClick={() => setView('week')} className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg text-xs sm:text-sm transition ${view === 'week' ? 'bg-purple-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}>Week</button>
-                <button onClick={() => setView('day')} className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg text-xs sm:text-sm transition ${view === 'day' ? 'bg-purple-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}>Day</button>
-                <button onClick={() => setView('agenda')} className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg text-xs sm:text-sm transition ${view === 'agenda' ? 'bg-purple-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}>Agenda</button>
+                <button onClick={() => setView('month')} className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg text-[10px] sm:text-xs transition ${view === 'month' ? 'bg-purple-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}>Month</button>
+                <button onClick={() => setView('week')} className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg text-[10px] sm:text-xs transition ${view === 'week' ? 'bg-purple-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}>Week</button>
+                <button onClick={() => setView('day')} className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg text-[10px] sm:text-xs transition ${view === 'day' ? 'bg-purple-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}>Day</button>
+                <button onClick={() => setView('agenda')} className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg text-[10px] sm:text-xs transition ${view === 'agenda' ? 'bg-purple-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}>Agenda</button>
               </div>
             </div>
 

@@ -12,6 +12,7 @@ const allReports = [
 ];
 
 const Reports = () => {
+  // ... (keep all your existing logic)
   const [search, setSearch] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterCategory, setFilterCategory] = useState('all');
@@ -24,7 +25,7 @@ const Reports = () => {
       (filterCategory === 'all' || r.category === filterCategory);
   });
 
-  const exportCSV = () => {
+    const exportCSV = () => {
     const headers = ['Name', 'Date', 'Status', 'Type', 'Size', 'Category'];
     const rows = filtered.map(r => [r.name, r.date, r.status, r.type, r.size, r.category]);
     const csv = [headers, ...rows].map(row => row.join(',')).join('\n');
@@ -40,7 +41,7 @@ const Reports = () => {
   const pendingCount = filtered.filter(r => r.status === 'Needs review').length;
 
   return (
-    <div className="animate-fade-in space-y-4 md:space-y-6 p-4 md:p-0">
+    <div className="animate-fade-in space-y-4 sm:space-y-6 p-3 sm:p-4 md:p-0">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-black bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">Reports Library</h1>
@@ -51,23 +52,21 @@ const Reports = () => {
         </button>
       </div>
 
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm rounded-xl p-3 md:p-4 border flex justify-between items-center">
           <span className="text-gray-600 text-sm md:text-base">📄 Total Reports</span>
           <span className="text-xl md:text-2xl font-bold">{totalReports}</span>
         </div>
         <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm rounded-xl p-3 md:p-4 border flex justify-between items-center">
-          <span className="text-gray-600 text-sm md:text-base">✅ Completed</span>
+          <span className="text-sm md:text-base text-gray-600">✅ Completed</span>
           <span className="text-xl md:text-2xl font-bold text-green-600">{completedCount}</span>
         </div>
         <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm rounded-xl p-3 md:p-4 border flex justify-between items-center">
-          <span className="text-gray-600 text-sm md:text-base">⚠️ Needs Review</span>
+          <span className="text-sm md:text-base text-gray-600">⚠️ Needs Review</span>
           <span className="text-xl md:text-2xl font-bold text-amber-600">{pendingCount}</span>
         </div>
       </div>
 
-      {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-3">
         <input 
           type="text" 
@@ -94,37 +93,32 @@ const Reports = () => {
         </select>
       </div>
 
-      {/* Reports Table */}
       <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
-        <div className="overflow-x-auto -mx-4 md:mx-0">
+        <div className="overflow-x-auto">
           <div className="min-w-full inline-block align-middle">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
               <thead className="bg-gray-100/50 dark:bg-gray-800/50">
                 <tr>
-                  {['Name', 'Date', 'Status', 'Type', 'Size', 'Category', ''].map((h, index) => (
-                    <th key={index} className="px-3 md:px-6 py-2 md:py-3 text-left text-xs font-semibold text-gray-600 uppercase whitespace-nowrap">
-                      {h}
-                    </th>
+                  {['Name', 'Date', 'Status', 'Type', 'Size', 'Category', ''].map((h, idx) => (
+                    <th key={idx} className="px-3 md:px-6 py-2 md:py-3 text-left text-[10px] sm:text-xs font-semibold text-gray-600 uppercase whitespace-nowrap">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                 {filtered.map(r => (
                   <tr key={r.id} className="hover:bg-gray-100/50 dark:hover:bg-gray-800/50 transition">
-                    <td className="px-3 md:px-6 py-2 md:py-4 text-sm font-medium whitespace-nowrap">{r.name}</td>
-                    <td className="px-3 md:px-6 py-2 md:py-4 text-sm whitespace-nowrap">{r.date}</td>
+                    <td className="px-3 md:px-6 py-2 md:py-4 text-xs sm:text-sm font-medium whitespace-nowrap">{r.name}</td>
+                    <td className="px-3 md:px-6 py-2 md:py-4 text-xs sm:text-sm whitespace-nowrap">{r.date}</td>
                     <td className="px-3 md:px-6 py-2 md:py-4 whitespace-nowrap">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        r.status === 'Completed' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
-                      }`}>{r.status}</span>
+                      <span className={`px-2 py-1 rounded-full text-[10px] sm:text-xs font-medium ${r.status === 'Completed' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>{r.status}</span>
                     </td>
-                    <td className="px-3 md:px-6 py-2 md:py-4 text-sm whitespace-nowrap">{r.type}</td>
-                    <td className="px-3 md:px-6 py-2 md:py-4 text-sm whitespace-nowrap">{r.size}</td>
-                    <td className="px-3 md:px-6 py-2 md:py-4 text-sm whitespace-nowrap">
-                      <span className="px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 text-xs">{r.category}</span>
+                    <td className="px-3 md:px-6 py-2 md:py-4 text-xs sm:text-sm whitespace-nowrap">{r.type}</td>
+                    <td className="px-3 md:px-6 py-2 md:py-4 text-xs sm:text-sm whitespace-nowrap">{r.size}</td>
+                    <td className="px-3 md:px-6 py-2 md:py-4 text-xs sm:text-sm whitespace-nowrap">
+                      <span className="px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 text-[10px] sm:text-xs">{r.category}</span>
                     </td>
                     <td className="px-3 md:px-6 py-2 md:py-4 whitespace-nowrap">
-                      <button className="text-blue-500 hover:text-blue-700 text-sm font-medium">Download</button>
+                      <button className="text-blue-500 hover:text-blue-700 text-xs sm:text-sm font-medium">Download</button>
                     </td>
                   </tr>
                 ))}
@@ -132,7 +126,7 @@ const Reports = () => {
             </table>
           </div>
         </div>
-        {filtered.length === 0 && <div className="text-center py-8 text-gray-400">No reports match.</div>}
+        {filtered.length === 0 && <div className="text-center py-8 text-gray-400 text-sm">No reports match.</div>}
       </div>
     </div>
   );

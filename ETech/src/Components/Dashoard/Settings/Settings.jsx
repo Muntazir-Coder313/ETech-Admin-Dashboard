@@ -17,6 +17,7 @@ const tabs = [
   { id: 'preferences', label: 'Preferences', icon: <Globe size={18} /> },
 ];
 
+// Profile Tab – Fully Responsive
 const ProfileTab = ({ user, onUpdate }) => {
   const [form, setForm] = useState(user);
   const [editing, setEditing] = useState(false);
@@ -52,7 +53,7 @@ const ProfileTab = ({ user, onUpdate }) => {
         </div>
         <div>
           <h3 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-white">{form.name}</h3>
-          <p className="text-gray-500 dark:text-gray-400 text-sm">{form.email}</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">{form.email}</p>
           <p className="text-xs text-gray-400">Member since {form.joined}</p>
         </div>
       </div>
@@ -93,15 +94,15 @@ const ProfileTab = ({ user, onUpdate }) => {
 
       <div className="flex flex-col sm:flex-row gap-3">
         {!editing ? (
-          <button onClick={() => setEditing(true)} className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition flex items-center gap-2 justify-center">
+          <button onClick={() => setEditing(true)} className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition flex items-center gap-2 justify-center text-sm sm:text-base">
             <Edit2 size={16} /> Edit Profile
           </button>
         ) : (
           <>
-            <button onClick={handleSave} className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition flex items-center gap-2 justify-center">
+            <button onClick={handleSave} className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition flex items-center gap-2 justify-center text-sm sm:text-base">
               <Save size={16} /> Save
             </button>
-            <button onClick={() => setEditing(false)} className="bg-gray-200 dark:bg-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition justify-center">Cancel</button>
+            <button onClick={() => setEditing(false)} className="bg-gray-200 dark:bg-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition justify-center text-sm sm:text-base">Cancel</button>
           </>
         )}
       </div>
@@ -109,6 +110,7 @@ const ProfileTab = ({ user, onUpdate }) => {
   );
 };
 
+// Appearance Tab – Responsive
 const AppearanceTab = ({ settings, onUpdate }) => {
   const [darkMode, setDarkMode] = useState(settings.darkMode);
   const [fontSize, setFontSize] = useState(settings.fontSize || 'medium');
@@ -151,7 +153,7 @@ const AppearanceTab = ({ settings, onUpdate }) => {
             <button
               key={size}
               onClick={() => handleFontChange(size)}
-              className={`px-4 py-2 rounded-lg transition capitalize ${fontSize === size ? 'bg-purple-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'}`}
+              className={`px-4 py-2 rounded-lg transition capitalize text-sm ${fontSize === size ? 'bg-purple-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'}`}
             >
               {size}
             </button>
@@ -179,6 +181,7 @@ const AppearanceTab = ({ settings, onUpdate }) => {
   );
 };
 
+// Notifications Tab – Responsive
 const NotificationsTab = ({ settings, onUpdate }) => {
   const [notifs, setNotifs] = useState(settings.notifications || {
     email: true,
@@ -215,6 +218,7 @@ const NotificationsTab = ({ settings, onUpdate }) => {
   );
 };
 
+// Security Tab – Responsive
 const SecurityTab = ({ settings, onUpdate }) => {
   const [twoFactor, setTwoFactor] = useState(settings.twoFactor || false);
   const [showPassword, setShowPassword] = useState(false);
@@ -314,6 +318,7 @@ const SecurityTab = ({ settings, onUpdate }) => {
   );
 };
 
+// Preferences Tab – Responsive
 const PreferencesTab = ({ settings, onUpdate }) => {
   const [prefs, setPrefs] = useState(settings.preferences || {
     language: 'English',
@@ -366,6 +371,7 @@ const PreferencesTab = ({ settings, onUpdate }) => {
   );
 };
 
+// Main Settings Component
 const Settings = () => {
   const [activeTab, setActiveTab] = useState('profile');
 
@@ -408,19 +414,22 @@ const Settings = () => {
   };
 
   return (
-    <div className="space-y-4 sm:space-y-6 animate-fade-in p-4 sm:p-0">
+    <div className="space-y-4 sm:space-y-6 animate-fade-in p-3 sm:p-4 md:p-0">
+      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-black bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">⚙️ Settings</h1>
           <p className="text-sm md:text-base text-gray-500 dark:text-gray-400">Manage your account preferences</p>
         </div>
-        <button onClick={() => { toast.success('Settings saved'); }} className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-xl shadow transition flex items-center gap-2 justify-center w-full sm:w-auto">
+        <button onClick={() => { toast.success('Settings saved'); }} className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-xl shadow transition flex items-center gap-2 justify-center w-full sm:w-auto text-sm sm:text-base">
           <Save size={18} /> Save All
         </button>
       </div>
 
+      {/* Main Layout */}
       <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 overflow-hidden">
         <div className="flex flex-col md:flex-row">
+          {/* Sidebar Tabs */}
           <div className="md:w-56 p-3 sm:p-4 border-b md:border-b-0 md:border-r border-gray-200/50 dark:border-gray-700/50">
             <div className="space-y-1">
               {tabs.map(tab => (
@@ -445,6 +454,7 @@ const Settings = () => {
             </div>
           </div>
 
+          {/* Content */}
           <div className="flex-1 p-4 sm:p-6 max-h-[calc(100vh-300px)] overflow-y-auto">
             {renderTabContent()}
           </div>
